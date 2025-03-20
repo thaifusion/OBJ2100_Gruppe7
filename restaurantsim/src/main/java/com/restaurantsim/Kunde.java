@@ -25,10 +25,19 @@ public class Kunde {
         return etternavn;
     }
 
-    public boolean equals(Kunde kunde) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Kunde kunde = (Kunde) obj;
         return fornavn.equals(kunde.getFornavn()) && etternavn.equals(kunde.getEtternavn());
     }
 
+    @Override
     public String toString() {
         return fornavn + " " + etternavn;
     }
