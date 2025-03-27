@@ -1,44 +1,20 @@
 package com.restaurantsim;
 
 public class Kunde {
-    private String fornavn;
-    private String etternavn;
+    private int id;
 
     public Kunde() {
-        setFornavn(fornavn);
-        setEtternavn(etternavn);
+        setKundeId(id);
+        setMaksVentetid();
+        setBestilling();
     }
 
-    public void setFornavn(String fornavn) {
-        this.fornavn = fornavn;
-    }
-
-    public void setEtternavn(String etternavn) {
-        this.etternavn = etternavn;
-    }
-
-    public String getFornavn() {
-        return fornavn;
-    }
-
-    public String getEtternavn() {        
-        return etternavn;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Kunde kunde = (Kunde) obj;
-        return fornavn.equals(kunde.getFornavn()) && etternavn.equals(kunde.getEtternavn());
+    public void setKundeId(int id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return fornavn + " " + etternavn;
+        return "";
     }
 }
