@@ -129,4 +129,8 @@ public class Kokk extends Thread {
                 ", spesialisering='" + spesialisering + '\'' +
                 '}';
     }
+
+  
+    
+    
 }

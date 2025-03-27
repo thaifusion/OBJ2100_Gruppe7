@@ -1,5 +1,7 @@
 package com.restaurantsim;
 
+ 
+
 public class Kunde {
     private int id;
 
@@ -25,4 +27,7 @@ public class Kunde {
     public String toString() {
         return "";
     }
+
+  
+    
 }
