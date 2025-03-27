@@ -1,4 +1,4 @@
-package restaurantsim;
+package com.restaurantsim;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
