@@ -1,5 +1,7 @@
 package com.restaurantsim;
 
+ 
+
 public class Kunde {
     private String fornavn;
     private String etternavn;
@@ -32,4 +34,7 @@ public class Kunde {
     public String toString() {
         return fornavn + " " + etternavn;
     }
+
+  
+    
 }
