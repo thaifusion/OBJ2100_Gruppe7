@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class Bestilling {
     private Kunde kunde;
-    private Måltid måltid;
+    private Maltider måltid;
     private LocalDateTime bestillingstid;
     private int tilberedningstid; // I sekunder eller minutter
     private String status; // "Pågående", "Ferdig", "Kansellert"
 
     // Konstruktør
-    public Bestilling(Kunde kunde, Måltid måltid, int tilberedningstid) {
+    public Bestilling(Kunde kunde, Maltider måltid, int tilberedningstid) {
         this.kunde = kunde;
         this.måltid = måltid;
         this.bestillingstid = LocalDateTime.now();
@@ -28,11 +28,11 @@ public class Bestilling {
         this.kunde = kunde;
     }
 
-    public Måltid getMåltid() {
+    public Maltider getMåltid() {
         return måltid;
     }
 
-    public void setMåltid(Måltid måltid) {
+    public void setMåltid(Maltider måltid) {
         this.måltid = måltid;
     }
 
