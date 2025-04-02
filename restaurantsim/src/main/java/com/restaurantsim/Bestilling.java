@@ -1,88 +1,27 @@
 package com.restaurantsim;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-
 public class Bestilling {
-    private Kunde kunde;
-    private Maltider måltid;
-    private LocalDateTime bestillingstid;
-    private int tilberedningstid; // I sekunder eller minutter
-    private String status; // "Pågående", "Ferdig", "Kansellert"
+   
+    private final int kundeId;
+    private final Måltider måltid;
 
-    // Konstruktør
-    public Bestilling(Kunde kunde, Maltider måltid, int tilberedningstid) {
-        this.kunde = kunde;
+    public Bestilling(int kundeId, Måltider måltid) {
+        this.kundeId = kundeId;
         this.måltid = måltid;
-        this.bestillingstid = LocalDateTime.now();
-        this.tilberedningstid = tilberedningstid;
-        this.status = "Pågående";
     }
 
-    // Get- og set-metoder
-    public Kunde getKunde() {
-        return kunde;
+    public int getKundeId() {
+        return kundeId;
     }
 
-    public void setKunde(Kunde kunde) {
-        this.kunde = kunde;
-    }
-
-    public Maltider getMåltid() {
+    public Måltider getMåltid() {
         return måltid;
     }
 
-    public void setMåltid(Maltider måltid) {
-        this.måltid = måltid;
-    }
-
-    public LocalDateTime getBestillingstid() {
-        return bestillingstid;
-    }
-
-    public int getTilberedningstid() {
-        return tilberedningstid;
-    }
-
-    public void setTilberedningstid(int tilberedningstid) {
-        this.tilberedningstid = tilberedningstid;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    // equals-metode for å sammenligne bestillinger
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bestilling that = (Bestilling) o;
-        return tilberedningstid == that.tilberedningstid &&
-               Objects.equals(kunde, that.kunde) &&
-               Objects.equals(måltid, that.måltid) &&
-               Objects.equals(bestillingstid, that.bestillingstid) &&
-               Objects.equals(status, that.status);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(kunde, måltid, bestillingstid, tilberedningstid, status);
-    }
-
-    // toString-metode for enkel utskrift
     @Override
     public String toString() {
-        return "Bestilling{" +
-                "kunde=" + kunde +
-                ", måltid=" + måltid +
-                ", bestillingstid=" + bestillingstid +
-                ", tilberedningstid=" + tilberedningstid + " minutter" +
-                ", status='" + status + '\'' +
-                '}';
+        return "Bestilling{kundeId=" + kundeId + ", måltid=" + måltid + "}";
     }
 }
+ 
+

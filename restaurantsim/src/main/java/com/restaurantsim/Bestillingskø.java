@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Klassen Bestillingskø håndterer innkommende bestillinger fra kunder
- * og gir kokker (eller en RestaurantManager) mulighet til å hente bestillinger
  * i en tråd-sikker FIFO-rekkefølge.
  */
 public class Bestillingskø {
@@ -14,11 +13,7 @@ public class Bestillingskø {
     // Maks antall bestillinger i køen.
     private final int kapasitet;
 
-    /**
-     * En tråd-sikker kø for bestillinger.
-     * LinkedBlockingQueue sørger for at vi kan sette maks antall elementer
-     * og unngå løpsforhold.
-     */
+    // En tråd-sikker kø for bestillinger.
     private final BlockingQueue<Bestilling> ko;
 
     /**
@@ -28,54 +23,42 @@ public class Bestillingskø {
      */
     public Bestillingskø(int kapasitet) {
         this.kapasitet = kapasitet;
-        // Opprett en LinkedBlockingQueue med en øvre grense (kapasitet).
         this.ko = new LinkedBlockingQueue<>(kapasitet);
     }
 
     /**
-     * Forsøker å legge til en ny bestilling i køen.
-     * Metoden vil blokkere (vente) dersom køen er full,
-     * til det er plass.
-     *
-     * @param bestilling Bestillingsobjektet som skal legges til.
-     * @throws InterruptedException hvis tråden avbrytes mens den venter.
+     * Forsøker å legge til en ny bestilling i køen (blokkerer hvis full).
+     * @param bestilling
+     * @throws java.lang.InterruptedException
      */
     public void leggTilBestilling(Bestilling bestilling) throws InterruptedException {
-        // put() vil blokkere hvis køen er full,
-        // inntil det er ledig plass.
         ko.put(bestilling);
+        App.appendLog("[Bestillingskø] La til bestilling: " + bestilling);
         System.out.println("[Bestillingskø] La til bestilling: " + bestilling);
     }
 
     /**
-     * Henter neste bestilling fra køen (FIFO-rekkefølge).
-     * Metoden blokkerer (venter) dersom køen er tom,
-     * inntil en bestilling er tilgjengelig.
-     *
-     * @return Bestillingsobjektet som ble hentet.
-     * @throws InterruptedException hvis tråden avbrytes mens den venter.
+     * Henter neste bestilling fra køen (blokkerer hvis tom).
+     * @return 
+     * @throws java.lang.InterruptedException
      */
     public Bestilling hentBestilling() throws InterruptedException {
-        // take() blokkerer hvis køen er tom,
-        // inntil det dukker opp en bestilling.
         Bestilling bestilling = ko.take();
+        App.appendLog("[Bestillingskø] Hentet bestilling: " + bestilling);
         System.out.println("[Bestillingskø] Hentet bestilling: " + bestilling);
         return bestilling;
     }
 
     /**
-     * Ikke-blokkerende variant av hentBestilling,
-     * med en tidsgrense for hvor lenge man venter.
-     *
-     * @param timeout Maks ventetid i sekunder.
-     * @return Bestilling hvis tilgjengelig i løpet av ventetiden, ellers null.
-     * @throws InterruptedException hvis tråden avbrytes mens den venter.
+     * Ikke-blokkerende variant av hentBestilling med timeout.
+     * @param timeoutSekunder
+     * @return 
+     * @throws java.lang.InterruptedException
      */
-    public Bestilling forsokHentBestillingMedTimeout(int timeout) throws InterruptedException {
-        // poll() venter i gitt tid. Returnerer null hvis ingen bestilling dukker opp.
-        Bestilling bestilling = ko.poll(timeout, TimeUnit.SECONDS);
+    public Bestilling forsokHentBestillingMedTimeout(int timeoutSekunder) throws InterruptedException {
+        Bestilling bestilling = ko.poll(timeoutSekunder, TimeUnit.SECONDS);
         if (bestilling != null) {
-            System.out.println("[Bestillingskø] Hentet bestilling (med timeout): " + bestilling);
+            System.out.println("[Bestillingskø] Hentet (timeout): " + bestilling);
         } else {
             System.out.println("[Bestillingskø] Ingen bestilling tilgjengelig (timeout)...");
         }
@@ -110,14 +93,9 @@ public class Bestillingskø {
         return kapasitet;
     }
 
-    /**
-     * Valgfri toString()-metode som gir enkel info om køens status.
-     */
     @Override
     public String toString() {
-        return "Bestillingskø{" +
-               "kapasitet=" + kapasitet +
-               ", antallNå=" + ko.size() +
-               '}';
+        return "Bestillingskø{kapasitet=" + kapasitet + ", antallNå=" + ko.size() + "}";
     }
 }
+
