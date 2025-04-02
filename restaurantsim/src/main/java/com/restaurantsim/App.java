@@ -3,6 +3,7 @@ package com.restaurantsim;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,30 +13,45 @@ import java.io.IOException;
  */
 public class App extends Application {
 
+    // GUI-elementer
     private BorderPane pane = new BorderPane();
     private Scene scene;
-    private Bestilling bestilling1;
-    private Kunde kunde1;
-    private Maltider måltid1;
+    private VBox venstreVbox = new VBox();
+    private VBox midtVbox = new VBox();
+    private VBox høyreVbox = new VBox();
 
+    // Systemvariabler
+    private final double VINDU_BREDDE = 1000;
+    private final double VINDU_HØYDE = 600;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        måltid1 = new Maltider("Spagetti", 10);
-        bestilling1 = new Bestilling(kunde1, måltid1, 10);
-        kunde1 = new Kunde(1, 10, bestilling1);
-        System.out.println(kunde1.getKundeId()
-        );
+    public void start(Stage stage) {
+        pane.setPrefSize(VINDU_BREDDE, VINDU_HØYDE);
+        stage.setResizable(false);
 
-        // 1) Opprett en Bestillingskø med kapasitet 5.
-        //Bestillingskø bestillingsKø = new Bestillingskø(5);
+        // Felles VBox attributter
+        venstreVbox.setPrefWidth(VINDU_BREDDE / 3);
+        venstreVbox.setPrefHeight(VINDU_HØYDE);
+        midtVbox.setPrefWidth(VINDU_BREDDE / 3);
+        midtVbox.setPrefHeight(VINDU_HØYDE);
+        høyreVbox.setPrefWidth(VINDU_BREDDE / 3);
+        høyreVbox.setPrefHeight(VINDU_HØYDE);
+
+        // Legger til GUI-elementer
+        pane.setLeft(venstreVbox);
+        venstreVbox.setStyle("-fx-background-color: lightblue;");
+
+        pane.setCenter(midtVbox);
+        midtVbox.setStyle("-fx-background-color: lightgreen;");
+
+        pane.setRight(høyreVbox);
+        høyreVbox.setStyle("-fx-background-color: lightyellow;");
+
 
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }
-
-
 
     public static void main(String[] args) {
         launch();

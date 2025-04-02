@@ -1,59 +1,71 @@
 package com.restaurantsim;
 
 
-public class Kunde extends Thread {
-    private int id;
-    private int maksVentetid;
-    private String status;
-    private Bestilling bestilling;
+public class Kunde implements Runnable {
 
-    public Kunde(int id, int maksVentetid, Bestilling bestilling) {
-        setKundeId(id);
-        setMaksVentetid(maksVentetid);
-        setBestilling(bestilling);
-        setStatus(status);
-    }
+    private String navn;
+    private Ordre ordre;
+    private Restaurant restaurant;
+    private boolean vip;
+    private boolean ordreMottatt = false;
+    private boolean erSint = false;
+    private long maxVentetid;
+    private long ankomstTid;
 
-    public void setKundeId(int id) {
-        this.id = id;
-    }
-
-    public int getKundeId() {
-        return id;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setMaksVentetid(int maksVentetid) {
-        this.maksVentetid = maksVentetid;
-    }
-
-    public int getMaksVentetid() {
-        return maksVentetid;
-    }
-
-    public void setBestilling(Bestilling bestilling) {
-        this.bestilling = bestilling;
-    }
-
-    public Bestilling getBestilling() {
-        return bestilling;
+    public Kunde(String navn, Ordre ordre, boolean vip, Restaurant restaurant, long maxVentetid, long ankomstTid) {
+        this.navn = navn;
+        this.ordre = ordre;
+        this.vip = vip;
+        this.maxVentetid = maxVentetid;
+        this.ankomstTid = System.currentTimeMillis();
     }
 
     @Override
-    public String toString() {
-        return "";
+    public void run() {
+        try {
+            leggInnOrdre();
+            long startVentetid = System.currentTimeMillis();
+            while (!ordreMottatt && !ordreUtgatt(startVentetid)) {
+                wait(maxVentetid);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        }
     }
 
-    /*
-     *  Metoder for funksjonalitet for Kunde
-     */
+    private void leggInnOrdre() throws InterruptedException {
+        this.ordre = new Ordre(this, Maltider.getRandomMaltider());
+        restaurant.leggTilOrdre(ordre);   
+    }
 
-     
+    public synchronized void maltidMottatt() {
+        ordreMottatt = true;
+        notifyAll();
+    }
+
+    public boolean ordreUtgatt(long startVentetid) {
+        return (System.currentTimeMillis() - startVentetid) > maxVentetid;
+    }
+
+    public String getNavn() {
+        return navn;
+    }
+    
+    public Ordre getOrdre() {
+        return ordre;
+    }
+
+    public boolean erVip() {
+        return vip;
+    }
+
+    public boolean erSint() {
+        return erSint;
+    }
+
+    public long getMaxVentetid() {
+        return maxVentetid;
+    }
+    
 }
