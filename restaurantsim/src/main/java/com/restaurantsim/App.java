@@ -27,7 +27,7 @@ public class App extends Application {
         pane.setPrefSize(VINDU_BREDDE, VINDU_HØYDE);
         stage.setResizable(false);
 
-        // Felles VBox attributter
+        // VBox Config
         venstreVbox.setPrefWidth(VINDU_BREDDE / 3);
         venstreVbox.setPrefHeight(VINDU_HØYDE);
         midtVbox.setPrefWidth(VINDU_BREDDE / 3);
@@ -35,7 +35,7 @@ public class App extends Application {
         høyreVbox.setPrefWidth(VINDU_BREDDE / 3);
         høyreVbox.setPrefHeight(VINDU_HØYDE);
 
-        // Legger til GUI-elementer
+        // Legger til og plasserer GUI-elementer
         pane.setLeft(venstreVbox);
         venstreVbox.setStyle("-fx-background-color: lightblue;");
 
