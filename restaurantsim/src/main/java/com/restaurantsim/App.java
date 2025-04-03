@@ -8,10 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+=======
+import javafx.scene.control.ListView;
+>>>>>>> Stashed changes
 =======
 import javafx.scene.control.ListView;
 >>>>>>> Stashed changes
@@ -54,6 +58,9 @@ public class App extends Application {
     private final double VINDU_HØYDE = 600;
     private final Restaurant restaurant = new Restaurant(3, 5);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -103,6 +110,9 @@ public class App extends Application {
         høyreVbox.setStyle("-fx-background-color: lightyellow;");
         høyreVbox.getChildren().add(new høyreVboxController().kokkListView);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -221,7 +231,10 @@ public class App extends Application {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
     class venstreVboxController {
         ListView<Kunde> kundeListView = new ListView<>();
         
@@ -238,6 +251,9 @@ public class App extends Application {
         }
     }
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     class midtVboxController {
         ListView<Ordrelinje> underBehandlingListView = new ListView<>();
@@ -261,6 +277,10 @@ public class App extends Application {
         }
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
 =======
