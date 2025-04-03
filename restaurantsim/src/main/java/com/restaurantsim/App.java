@@ -81,7 +81,7 @@ public class App extends Application {
 
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
         Kokk kokk1 = new Kokk("Kokk-1", Måltider.PIZZA, simulation.getBestillingsKø());
-        Kokk kokk2 = new Kokk("Kokk-2", null, simulation.getBestillingsKø());
+        Kokk kokk2 = new Kokk("Kokk-2", simulation.getBestillingsKø());
         simulation.registrerKokk(kokk1);
         simulation.registrerKokk(kokk2);
 

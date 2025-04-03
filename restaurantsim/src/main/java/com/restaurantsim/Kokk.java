@@ -11,17 +11,12 @@ public class Kokk implements Runnable {
         this.bestillingsKø = bestillingsKø;
     }
     
-public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Måltider spesialisering) {
-    this.kokkNavn = kokkNavn;
-    this.bestillingsKø = bestillingsKø;
-    this.spesialisering = spesialisering;
-}
+    public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestillingsKø) {
+        this.kokkNavn = kokkNavn;
+        this.bestillingsKø = bestillingsKø;
+        this.spesialisering = spesialisering;
+    }
 
-public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestillingsKø) {
-    this.kokkNavn = kokkNavn;
-    this.spesialisering = spesialisering;
-    this.bestillingsKø = bestillingsKø;
-}
 
     @Override
     public void run() {
@@ -55,8 +50,12 @@ public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestilling
     }
 
     public Måltider getSpesialisering() {
-    return spesialisering;
-}
+        return spesialisering;
+    }
+
+    public String getKokkNavn() {
+        return kokkNavn;
+    }
 
 
 }
