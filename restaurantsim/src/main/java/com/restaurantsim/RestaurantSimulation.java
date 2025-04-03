@@ -1,8 +1,8 @@
 package com.restaurantsim;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RestaurantSimulation {
@@ -42,7 +42,7 @@ public class RestaurantSimulation {
     public void startKunder() {
         for (int i = 1; i <= 5; i++) {
             Måltider randomRett = Måltider.values()[i % Måltider.values().length];
-            Kunde kunde = new Kunde(i, randomRett, kø);
+            Kunde kunde = new Kunde(i, randomRett, kø, this);
             
             // Legger tekst i GUI-listen (f.eks. “Kunde 3 ønsker PASTA”)
             App.addKundeTilListe("Kunde " + i + " ønsker " + randomRett);
