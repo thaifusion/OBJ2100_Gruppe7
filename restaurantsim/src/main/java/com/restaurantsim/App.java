@@ -9,10 +9,14 @@ import javafx.scene.Scene;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+=======
+import javafx.scene.control.ListView;
+>>>>>>> Stashed changes
 =======
 import javafx.scene.control.ListView;
 >>>>>>> Stashed changes
@@ -59,6 +63,9 @@ public class App extends Application {
     private final Restaurant restaurant = new Restaurant(3, 5);
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -111,6 +118,9 @@ public class App extends Application {
         høyreVbox.getChildren().add(new høyreVboxController().kokkListView);
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -232,7 +242,10 @@ public class App extends Application {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     class venstreVboxController {
@@ -252,6 +265,9 @@ public class App extends Application {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -278,6 +294,10 @@ public class App extends Application {
     }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
 =======
