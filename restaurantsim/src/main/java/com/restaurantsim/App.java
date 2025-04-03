@@ -7,10 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+=======
+import javafx.scene.control.ListView;
+>>>>>>> Stashed changes
 =======
 import javafx.scene.control.ListView;
 >>>>>>> Stashed changes
@@ -49,6 +53,9 @@ public class App extends Application {
     private final double VINDU_BREDDE = 1000;
     private final double VINDU_HØYDE = 600;
     private final Restaurant restaurant = new Restaurant(3, 5);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     @Override
@@ -95,6 +102,9 @@ public class App extends Application {
         pane.setRight(høyreVbox);
         høyreVbox.setStyle("-fx-background-color: lightyellow;");
         høyreVbox.getChildren().add(new høyreVboxController().kokkListView);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
         // --- Bottom-pane: Statuslinje, scoreboard og loggvisning ---
@@ -210,6 +220,25 @@ public class App extends Application {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    class venstreVboxController {
+        ListView<Kunde> kundeListView = new ListView<>();
+        
+        public venstreVboxController() {
+            kundeListView.setPrefHeight(VINDU_HØYDE / 1.5);
+        }
+
+        public void nyKunde() throws InterruptedException {
+            try {
+                kundeListView.getItems().add(new Kunde(restaurant));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+>>>>>>> Stashed changes
     class midtVboxController {
         ListView<Ordrelinje> underBehandlingListView = new ListView<>();
 
@@ -231,5 +260,9 @@ public class App extends Application {
             }
         }
     }
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
