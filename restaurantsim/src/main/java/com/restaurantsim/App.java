@@ -1,7 +1,6 @@
 package com.restaurantsim;
 
-
-
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,22 +17,27 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    // Referanse til loggvisningen som vi kan oppdatere fra andre tråder.
+    // TextArea for logging (nedre panelet)
     private static TextArea logArea = new TextArea();
+    // TextArea for bestillingsinformasjon (høyre panelet)
     private static TextArea bestillingInfoArea = new TextArea();
-   
     
-    // Lag en liste for å holde kundene
+    // ObservableList for aktive kunder (venstre panelet)
     private static ObservableList<String> aktiveKunder = FXCollections.observableArrayList();
+    
+    // Label for scoreboard (viser fornøyde vs. sinte kunder)
+    private static Label scoreboardLabel = new Label("Scoreboard: Happy: 0, Angry: 0");
+    
+    // Referanse til simuleringsobjektet
+    private RestaurantSimulation simulation;
 
     @Override
     public void start(Stage stage) {
-        // 1) Opprett et BorderPane som hovedlayout
+        // Opprett hovedlayout: BorderPane
         BorderPane root = new BorderPane();
 
-        //2)  Top: Menylinje med tittel og kontrollknapper
-        HBox topPane = new HBox();
-        topPane.setSpacing(10);
+        // --- Top-pane: Menylinje med tittel og kontrollknapper ---
+        HBox topPane = new HBox(10);
         Label title = new Label("Restaurant Simulering");
         Button startButton = new Button("Start");
         Button pauseButton = new Button("Pause");
@@ -41,58 +45,50 @@ public class App extends Application {
         topPane.getChildren().addAll(title, startButton, pauseButton, stoppButton);
         root.setTop(topPane);
 
-         
-        //3)  Left: Liste over aktive kunder (eksempel)
-        VBox leftPane = new VBox();
-        leftPane.setSpacing(10);
+        // --- Left-pane: Liste over aktive kunder ---
+        VBox leftPane = new VBox(10);
         Label kunderLabel = new Label("Aktive kunder:");
         ListView<String> kunderListView = new ListView<>(aktiveKunder);
         leftPane.getChildren().addAll(kunderLabel, kunderListView);
         root.setLeft(leftPane);
 
-        // Center: Canvas for simulering (kan senere utvides med animasjon)
-        // For nå holder vi det tomt.
-        // Du kan f.eks. bruke et Canvas for visuelle oppdateringer.
+        // --- Center-pane: (Tomt for nå – kan utvides med Canvas for animasjon) ---
         // root.setCenter(canvas);
 
-        // 5) Right: Informasjonspanel for bestillingsinfo og kokkestatus
+        // --- Right-pane: Bestillingsinfo og kokkestatus ---
         VBox rightPane = new VBox(10);
-          Label ordreLabel = new Label("Bestillingsinfo:");
-          TextArea bestillingInfoArea = new TextArea();
-          bestillingInfoArea.setEditable(false);
-          rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
-          root.setRight(rightPane);
+        Label ordreLabel = new Label("Bestillingsinfo:");
+        bestillingInfoArea.setEditable(false);
+        rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
+        root.setRight(rightPane);
 
-
-        // 6) Bottom: Statuslinje og loggvisning
+        // --- Bottom-pane: Statuslinje, scoreboard og loggvisning ---
         VBox bottomPane = new VBox(5);
         Label statusLabel = new Label("Status: Venter på bestillinger...");
-        logArea.setEditable(false); // Gjør loggvisningen skrivebeskyttet
-        bottomPane.getChildren().addAll(statusLabel, logArea);
+        logArea.setEditable(false);
+        bottomPane.getChildren().addAll(statusLabel, scoreboardLabel, logArea);
         root.setBottom(bottomPane);
-        
-      
 
-        // 7) Opprett scenen og vis den
+        // Opprett og vis scenen
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();
 
-        // 8) Start restaurantsimuleringen (opprett og start tråder)
-        RestaurantSimulation simulation = new RestaurantSimulation(5);
-        
-        // Registrer og start kokker
+        // --- Start restaurantsimuleringen ---
+        // Opprett simuleringsobjekt med en bestillingskø med kapasitet 5
+        simulation = new RestaurantSimulation(5);
+
+        // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
         Kokk kokk1 = new Kokk("Kokk-1", Måltider.PIZZA, simulation.getBestillingsKø());
         Kokk kokk2 = new Kokk("Kokk-2", null, simulation.getBestillingsKø());
         simulation.registrerKokk(kokk1);
         simulation.registrerKokk(kokk2);
-        
-         // Start kunder
-        simulation.startKunder();
-        
 
-        // Koble kontrollknapper (eksempel)
+        // Start kundetråder
+        simulation.startKunder();
+
+        // --- Koble kontrollknapper til handlinger ---
         startButton.setOnAction(e -> {
             simulation.startKunder();
             statusLabel.setText("Status: Simulering startet");
@@ -105,43 +101,56 @@ public class App extends Application {
         stoppButton.setOnAction(e -> {
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
-            // Her kan du legge til kode for å stoppe alle tråder.
+            // Her kan du legge til kode for å stoppe alle tråder
         });
+        
+        // --- Start en AnimationTimer for å oppdatere scoreboard kontinuerlig ---
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateScoreboard();
+            }
+        }.start();
     }
-
+    
     /**
-     * Metode for å oppdatere loggvisningen.
-     * @param message
+     * Legg en melding til logArea (GUI) på JavaFX-tråden.
      */
     public static void appendLog(String message) {
-        // Platform.runLater sikrer at vi oppdaterer GUI på JavaFX-tråden.
-        Platform.runLater(() -> {
-            logArea.appendText(message + "\n");
-        });
+        Platform.runLater(() -> logArea.appendText(message + "\n"));
     }
     
+    /**
+     * Legg til en kunde i den aktive kundelisten.
+     */
     public static void addKundeTilListe(String kundeNavn) {
-    Platform.runLater(() -> {
-        aktiveKunder.add(kundeNavn);
-    });
-}
-
+        Platform.runLater(() -> aktiveKunder.add(kundeNavn));
+    }
+    
+    /**
+     * Fjern en kunde fra den aktive kundelisten.
+     */
     public static void removeKundeFraListe(String kundeNavn) {
-    Platform.runLater(() -> {
-        aktiveKunder.remove(kundeNavn);
-    });
-}
-
+        Platform.runLater(() -> aktiveKunder.remove(kundeNavn));
+    }
+    
+    /**
+     * Legg til melding i bestillingInfoArea (GUI).
+     */
     public static void appendBestillingsinfo(String message) {
-    Platform.runLater(() -> {
-        bestillingInfoArea.appendText(message + "\n");
-    });
-}
+        Platform.runLater(() -> bestillingInfoArea.appendText(message + "\n"));
+    }
     
-    
-
-    
-
+    /**
+     * Oppdaterer scoreboardLabel med antall fornøyde (happy) og sinte (angry) kunder.
+     * Dette forutsetter at simulation har metoder getHappyCount() og getAngryCount().
+     */
+    private void updateScoreboard() {
+        Platform.runLater(() -> {
+            scoreboardLabel.setText("Scoreboard: Happy: " + simulation.getHappyCount() +
+                                      ", Angry: " + simulation.getAngryCount());
+        });
+    }
     
     public static void main(String[] args) {
         launch(args);

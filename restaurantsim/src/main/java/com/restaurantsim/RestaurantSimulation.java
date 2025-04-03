@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RestaurantSimulation {
+    private int happyCount = 0;
+    private int angryCount = 0;
 
     // F.eks. lag en liste for å holde rede på kokker
     private final List<Kokk> kokker = new ArrayList<>();
@@ -47,5 +49,23 @@ public class RestaurantSimulation {
             new Thread(kunde, "Kunde-" + i).start();
         }
     }
+    
+// Metoder for å inkrementere:
+    public synchronized void incrementHappy() {
+        happyCount++;
+    }
+    
+    public synchronized void incrementAngry() {
+        angryCount++;
+    }
+    
+    public synchronized int getHappyCount() {
+        return happyCount;
+    }
+    
+    public synchronized int getAngryCount() {
+        return angryCount;
+    }
+    
 }
 
