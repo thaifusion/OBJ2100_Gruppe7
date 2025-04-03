@@ -1,71 +1,44 @@
 package com.restaurantsim;
 
+ 
 
 public class Kunde implements Runnable {
 
-    private String navn;
-    private Ordre ordre;
-    private Restaurant restaurant;
-    private boolean vip;
-    private boolean ordreMottatt = false;
-    private boolean erSint = false;
-    private long maxVentetid;
-    private long ankomstTid;
+    private final int kundeId;
+    private final Måltider ønsketMåltid;
+    private final Bestillingskø bestillingsKø;
 
-    public Kunde(String navn, Ordre ordre, boolean vip, Restaurant restaurant, long maxVentetid, long ankomstTid) {
-        this.navn = navn;
-        this.ordre = ordre;
-        this.vip = vip;
-        this.maxVentetid = maxVentetid;
-        this.ankomstTid = System.currentTimeMillis();
+    public Kunde(int kundeId, Måltider ønsketMåltid, Bestillingskø bestillingsKø) {
+        this.kundeId = kundeId;
+        this.ønsketMåltid = ønsketMåltid;
+        this.bestillingsKø = bestillingsKø;
     }
+    
+    
 
     @Override
     public void run() {
         try {
-            leggInnOrdre();
-            long startVentetid = System.currentTimeMillis();
-            while (!ordreMottatt && !ordreUtgatt(startVentetid)) {
-                wait(maxVentetid);
-            }
+            // Opprett en bestilling
+            Bestilling best = new Bestilling(kundeId, ønsketMåltid);
+            App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
+            App.appendBestillingsinfo("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
+
+            // Legg bestillingen i køen (blokkert om køen er full).
+            bestillingsKø.leggTilBestilling(best);
+
+            // Eksempel: Her kan du "vente" på at maten blir ferdig,
+            // eller sjekke en tilbakemelding. Foreløpig bare en print.
+            System.out.println("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
+
+            // Sov litt for å simulere at kunden venter.
+             Thread.sleep(2000);
+            App.appendLog("Kunde " + kundeId + " har ventet en stund og forlater/venter videre...");
+
+            // Evt. sjekk om bestillingen ble hentet/ferdig i tide
+            // (i en mer avansert implementasjon).
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
+            System.err.println("Kunde " + kundeId + " avbrutt: " + e.getMessage());
         }
     }
-
-    private void leggInnOrdre() throws InterruptedException {
-        this.ordre = new Ordre(this, Maltider.getRandomMaltider());
-        restaurant.leggTilOrdre(ordre);   
-    }
-
-    public synchronized void maltidMottatt() {
-        ordreMottatt = true;
-        notifyAll();
-    }
-
-    public boolean ordreUtgatt(long startVentetid) {
-        return (System.currentTimeMillis() - startVentetid) > maxVentetid;
-    }
-
-    public String getNavn() {
-        return navn;
-    }
-    
-    public Ordre getOrdre() {
-        return ordre;
-    }
-
-    public boolean erVip() {
-        return vip;
-    }
-
-    public boolean erSint() {
-        return erSint;
-    }
-
-    public long getMaxVentetid() {
-        return maxVentetid;
-    }
-    
 }

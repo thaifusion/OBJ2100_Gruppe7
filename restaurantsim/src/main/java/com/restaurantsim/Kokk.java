@@ -1,67 +1,62 @@
 package com.restaurantsim;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+public class Kokk implements Runnable {
 
-public class Kokk extends Thread {
-    private String navn;
-    private Restaurant restaurant;
-    private boolean ledig = true;
-    private List<Maltider> spesialitet;
-    private int forsinkelseMellomOrdre;
-    private Random random = new Random();
+    private final String kokkNavn;
+    private final Bestillingskø bestillingsKø;
+    private Måltider spesialisering;
 
-    public Kokk(String navn, Restaurant restaurant) {
-        this.navn = navn;
-        this.restaurant = restaurant;
-        this.forsinkelseMellomOrdre = 1000 +  random.nextInt(2000);
-
-        Maltider[] alleMaltider = Maltider.values();
-        int spesialitetIdx = 2 + random.nextInt(2);
-        this.spesialitet = Arrays.asList(alleMaltider).subList(0, spesialitetIdx);
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø) {
+        this.kokkNavn = kokkNavn;
+        this.bestillingsKø = bestillingsKø;
     }
+    
+public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Måltider spesialisering) {
+    this.kokkNavn = kokkNavn;
+    this.bestillingsKø = bestillingsKø;
+    this.spesialisering = spesialisering;
+}
+
+public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestillingsKø) {
+    this.kokkNavn = kokkNavn;
+    this.spesialisering = spesialisering;
+    this.bestillingsKø = bestillingsKø;
+}
+
     @Override
     public void run() {
         while (true) {
             try {
-                Ordre ordre = restaurant.getNesteOrdre(this);
-                ordre.begynnTilberedning();
-                Thread.sleep(ordre.getMaltider().getTilberedningstid() + forsinkelseMellomOrdre);
-                ordre.ferdigTilberedning();
-                restaurant.meldFraFerdigOrdre(ordre);
+                // Hent neste bestilling (blokkerer om køen er tom).
+                Bestilling best = bestillingsKø.hentBestilling();
+                App.appendLog(kokkNavn + " tilbereder: " + best);
+               App.appendBestillingsinfo("Kokk " + kokkNavn + " henter bestilling for kunde " 
+    + best.getKundeId() + " (" + best.getMåltid() + ")");
+
+                
+                System.out.println(kokkNavn + " tilbereder: " + best);
+                 
+                // Simuler tilberedningstid (f.eks. 2 sek).
+                Thread.sleep(2000);
+                App.appendLog(kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendBestillingsinfo("Kokk " + kokkNavn + " er ferdig med bestilling for kunde " 
+    + best.getKundeId());
+
+                System.out.println(kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
+                // Deretter er kokken klar for neste bestilling.
+
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                e.printStackTrace();
+                // Avbryter kokkens arbeid (f.eks. når restauranten stenger).
+                App.appendLog(kokkNavn + " avbrutt. Avslutter kokketråden.");
+                System.out.println(kokkNavn + " avbrutt og avslutter.");
+                break;
             }
         }
     }
 
-    public void tilberedMaltid(Ordre ordre) throws InterruptedException {
-        ledig = false;
-        long tilberedningstid = ordre.getMaltider().getTilberedningstid();
-        Thread.sleep(tilberedningstid);
-        restaurant.meldFraFerdigOrdre(ordre);
-        ledig = true;
-    }
+    public Måltider getSpesialisering() {
+    return spesialisering;
+}
 
-    public boolean erSpesialisert(Maltider maltid) {
-        return spesialitet.contains(maltid);
-    }
 
-    public void taPause() throws InterruptedException {
-        Thread.sleep(forsinkelseMellomOrdre);
-    }
-
-    public boolean erLedig() {
-        return ledig;
-    }
-
-    public String getNavn() {
-        return navn;
-    }
-
-    public List<Maltider> getSpesialitet() {
-        return spesialitet;
-    }
 }
