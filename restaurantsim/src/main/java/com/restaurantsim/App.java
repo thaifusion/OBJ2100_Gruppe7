@@ -6,17 +6,23 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+<<<<<<< Updated upstream
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+=======
+import javafx.scene.control.ListView;
+>>>>>>> Stashed changes
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import scala.Int;
 
 public class App extends Application {
 
+<<<<<<< Updated upstream
     // TextArea for logging (nedre panelet)
     private static TextArea logArea = new TextArea();
     // TextArea for bestillingsinformasjon (høyre panelet)
@@ -30,6 +36,20 @@ public class App extends Application {
     
     // Referanse til simuleringsobjektet
     private RestaurantSimulation simulation;
+=======
+    // GUI-elementer
+    private BorderPane pane = new BorderPane();
+    private Scene scene;
+    private VBox venstreVbox = new VBox();
+    private VBox midtVbox = new VBox();
+    private VBox høyreVbox = new VBox();
+    
+
+    // Systemvariabler
+    private final double VINDU_BREDDE = 1000;
+    private final double VINDU_HØYDE = 600;
+    private final Restaurant restaurant = new Restaurant(3, 5);
+>>>>>>> Stashed changes
 
     @Override
     public void start(Stage stage) {
@@ -45,6 +65,7 @@ public class App extends Application {
         topPane.getChildren().addAll(title, startButton, pauseButton, stoppButton);
         root.setTop(topPane);
 
+<<<<<<< Updated upstream
         // --- Left-pane: Liste over aktive kunder ---
         VBox leftPane = new VBox(10);
         Label kunderLabel = new Label("Aktive kunder:");
@@ -61,6 +82,20 @@ public class App extends Application {
         bestillingInfoArea.setEditable(false);
         rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
         root.setRight(rightPane);
+=======
+        // Legger til GUI-elementer
+        pane.setLeft(venstreVbox);
+        venstreVbox.setStyle("-fx-background-color: lightblue;");
+        venstreVbox.getChildren().add(new venstreVboxController().kundeListView);
+
+        pane.setCenter(midtVbox);
+        midtVbox.setStyle("-fx-background-color: lightgreen;");
+        midtVbox.getChildren().add(new midtVboxController().underBehandlingListView);
+
+        pane.setRight(høyreVbox);
+        høyreVbox.setStyle("-fx-background-color: lightyellow;");
+        høyreVbox.getChildren().add(new høyreVboxController().kokkListView);
+>>>>>>> Stashed changes
 
         // --- Bottom-pane: Statuslinje, scoreboard og loggvisning ---
         VBox bottomPane = new VBox(5);
@@ -155,4 +190,46 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    class venstreVboxController {
+        ListView<Kunde> kundeListView = new ListView<>();
+        
+        public venstreVboxController() {
+            kundeListView.setPrefHeight(VINDU_HØYDE / 1.5);
+        }
+
+        public void nyKunde() throws InterruptedException {
+            try {
+                kundeListView.getItems().add(new Kunde(restaurant));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class midtVboxController {
+        ListView<Ordrelinje> underBehandlingListView = new ListView<>();
+
+        public midtVboxController() {
+            underBehandlingListView.setPrefHeight(VINDU_HØYDE / 1.5);
+        }
+    }
+
+    class høyreVboxController {
+        ListView<Kokk> kokkListView = new ListView<>();
+
+        public høyreVboxController() {
+            kokkListView.setPrefHeight(VINDU_HØYDE / 1.5);
+        }
+
+        public void leggTilKokk(Kokk kokk) {
+            for (int i = 0; i < 5; i++) {
+                kokkListView.getItems().add(kokk);
+            }
+        }
+    }
+}
+>>>>>>> Stashed changes
