@@ -80,8 +80,11 @@ public class App extends Application {
         simulation = new RestaurantSimulation(5);
 
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
-        Kokk kokk1 = new Kokk("Kokk-1", simulation.getBestillingsKø(), Måltider.PIZZA, simulation);
-        Kokk kokk2 = new Kokk("Kokk-2", simulation.getBestillingsKø(), simulation);
+        Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
+        Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk3 = new Kokk("Arne Brimi", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.SALAT, simulation);
+        Kokk kokk4 = new Kokk("Lars Monsen", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.BURGER, simulation);
+        Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
 
         // --- Koble kontrollknapper til handlinger ---
@@ -93,6 +96,9 @@ public class App extends Application {
                 stoppButton.setDisable(false);
                 simulation.startKokk(kokk1);
                 simulation.startKokk(kokk2);
+                simulation.startKokk(kokk3);
+                simulation.startKokk(kokk4);
+                simulation.startKokk(kokk5);
                 statusLabel.setText("Status: Simulering startet");
                 appendLog("Simulering startet.");
             }   

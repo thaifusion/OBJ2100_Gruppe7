@@ -17,9 +17,11 @@ public class RestaurantSimulation {
     // Alternativt en HashMap for spesialisering (valgfritt)
     // private final Map<Måltider, Kokk> chefMap = new HashMap<>();
     private final Bestillingskø kø;
+    private final Hentekø henteKø;
 
     public RestaurantSimulation(int køKapasitet) {
         this.kø = new Bestillingskø(køKapasitet);
+        this.henteKø = new Hentekø(køKapasitet);
     }
     
 
@@ -36,6 +38,10 @@ public class RestaurantSimulation {
         return kø;
     }
 
+    public Hentekø getHentekø() {
+        return henteKø;
+    }
+
     /**
      * Starter kundetråder (eksempelmetode).
      */
@@ -47,17 +53,15 @@ public class RestaurantSimulation {
                 try {
                     sjekkPause();
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
-                    Kunde kunde = new Kunde(kundeId, randomRett, kø, this);
+                    Kunde kunde = new Kunde(kundeId, randomRett, kø, henteKø, this);
                     new Thread(kunde, "Kunde-" + kundeId).start();
-                    kundeId++;
+                    
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
-
+                    kundeId++;
                     Thread.sleep(1000 + random.nextInt(2000));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-
-
             }
         }).start();
     }

@@ -4,18 +4,21 @@ public class Kokk implements Runnable {
 
     private final String kokkNavn;
     private final Bestillingskø bestillingsKø;
+    private final Hentekø henteKø;
     private Måltider spesialisering;
     private final RestaurantSimulation simulation;
 
-    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, RestaurantSimulation simulation) {
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kokkNavn = kokkNavn;
         this.bestillingsKø = bestillingsKø;
+        this.henteKø = henteKø;
         this.simulation = simulation;
     }
     
-    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Måltider spesialisering, RestaurantSimulation simulation) {
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, Måltider spesialisering, RestaurantSimulation simulation) {
         this.kokkNavn = kokkNavn;
         this.bestillingsKø = bestillingsKø;
+        this.henteKø = henteKø;
         this.spesialisering = spesialisering;
         this.simulation = simulation;
     }
@@ -34,9 +37,7 @@ public class Kokk implements Runnable {
                 Thread.sleep(2000);
                 App.appendLog(kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
                 App.appendBestillingsinfo("Kokk " + kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
-
-                System.out.println(kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
-                // Deretter er kokken klar for neste bestilling.
+                henteKø.leggTilHenteKø(best);               
 
             } catch (InterruptedException e) {
                 // Avbryter kokkens arbeid (f.eks. når restauranten stenger).

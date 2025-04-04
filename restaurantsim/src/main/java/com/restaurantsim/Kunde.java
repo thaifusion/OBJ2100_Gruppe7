@@ -7,12 +7,14 @@ public class Kunde implements Runnable {
     private final int kundeId;
     private final Måltider ønsketMåltid;
     private final Bestillingskø bestillingsKø;
+    private final Hentekø henteKø;
     private final RestaurantSimulation simulation;
 
-    public Kunde(int kundeId, Måltider ønsketMåltid, Bestillingskø bestillingsKø, RestaurantSimulation simulation) {
+    public Kunde(int kundeId, Måltider ønsketMåltid, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kundeId = kundeId;
         this.ønsketMåltid = ønsketMåltid;
         this.bestillingsKø = bestillingsKø;
+        this.henteKø = henteKø;
         this.simulation = simulation;
     }
     
@@ -22,29 +24,23 @@ public class Kunde implements Runnable {
     public void run() {
         try {
             while(!Thread.currentThread().isInterrupted() && simulation.kjører()) {
-                if (simulation.pausert()) {
+                while (simulation.pausert()) {
                     Thread.sleep(500);
-                    continue;
                 }
-
-                // Opprett en bestilling
                 Bestilling best = new Bestilling(kundeId, ønsketMåltid);
                 App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
                 App.appendBestillingsinfo("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-    
-                // Legg bestillingen i køen (blokkert om køen er full).
                 bestillingsKø.leggTilBestilling(best);
-    
-                // Eksempel: Her kan du "vente" på at maten blir ferdig,
-                // eller sjekke en tilbakemelding. Foreløpig bare en print.
-                System.out.println("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-    
-                // Sov litt for å simulere at kunden venter.
-                Thread.sleep(2000);
-                App.appendLog("Kunde " + kundeId + " har ventet en stund og forlater/venter videre...");
-    
-                // Evt. sjekk om bestillingen ble hentet/ferdig i tide
-                // (i en mer avansert implementasjon).
+                App.appendLog("Kunde " + kundeId + " venter på " + ønsketMåltid);
+                while (true) {
+                    Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
+                    if (ferdigBestilling.getKundeId() == kundeId) {
+                        App.appendLog("Kunde " + kundeId + " mottokk sin bestilling: " + ferdigBestilling);
+                        break;
+                    }
+                    Thread.sleep(100);
+                }
+                App.removeKundeFraListe("Kunde " + kundeId);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
