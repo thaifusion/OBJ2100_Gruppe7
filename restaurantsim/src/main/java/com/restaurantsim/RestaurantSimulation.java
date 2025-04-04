@@ -1,9 +1,10 @@
 package com.restaurantsim;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class RestaurantSimulation {
     private int happyCount = 0;
@@ -26,6 +27,7 @@ public class RestaurantSimulation {
      */
     public void registrerKokk(Kokk kokk) {
         kokker.add(kokk);
+        new Thread(kokk).start();
         // Hvis kokken har en spesialisering, kan du legge den i chefMap
        // if (kokk.getSpesialisering() != null) {
        //     chefMap.put((Måltider) kokk.getSpesialisering(), kokk);
@@ -40,8 +42,10 @@ public class RestaurantSimulation {
      * Starter kundetråder (eksempelmetode).
      */
     public void startKunder() {
+        Random random = new Random();
+
         for (int i = 1; i <= 5; i++) {
-            Måltider randomRett = Måltider.values()[i % Måltider.values().length];
+            Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
             Kunde kunde = new Kunde(i, randomRett, kø);
             
             // Legger tekst i GUI-listen (f.eks. “Kunde 3 ønsker PASTA”)

@@ -19,8 +19,13 @@ public class Kunde implements Runnable {
     @Override
     public void run() {
         try {
+            // Huske når kunden legger inn bestillingen
+            long bestillingstid = System.currentTimeMillis(); // Tid i miilisekunder
+
             // Opprett en bestilling
-            Bestilling best = new Bestilling(kundeId, ønsketMåltid);
+            Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
+
+            // Vis i GUI
             App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
             App.appendBestillingsinfo("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
 

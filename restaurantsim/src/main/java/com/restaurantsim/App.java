@@ -29,7 +29,7 @@ public class App extends Application {
     private static Label scoreboardLabel = new Label("Scoreboard: Happy: 0, Angry: 0");
     
     // Referanse til simuleringsobjektet
-    private RestaurantSimulation simulation;
+    public static RestaurantSimulation simulation;
 
     @Override
     public void start(Stage stage) {
@@ -80,8 +80,8 @@ public class App extends Application {
         simulation = new RestaurantSimulation(5);
 
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
-        Kokk kokk1 = new Kokk("Kokk-1", Måltider.PIZZA, simulation.getBestillingsKø());
-        Kokk kokk2 = new Kokk("Kokk-2", null, simulation.getBestillingsKø());
+        Kokk kokk1 = new Kokk("Bob", Måltider.PIZZA, simulation.getBestillingsKø());
+        Kokk kokk2 = new Kokk("Alice", null, simulation.getBestillingsKø());
         simulation.registrerKokk(kokk1);
         simulation.registrerKokk(kokk2);
 
@@ -147,8 +147,8 @@ public class App extends Application {
      */
     private void updateScoreboard() {
         Platform.runLater(() -> {
-            scoreboardLabel.setText("Scoreboard: Happy: " + simulation.getHappyCount() +
-                                      ", Angry: " + simulation.getAngryCount());
+            scoreboardLabel.setText("Scoreboard: 😊 Happy: " + simulation.getHappyCount() +
+                                      " |  😠 Angry: " + simulation.getAngryCount());
         });
     }
     
