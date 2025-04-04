@@ -1,5 +1,8 @@
 package com.restaurantsim;
 
+import com.restaurantsim.LoggerUtil;
+
+
 public class Kokk implements Runnable {
 
     private final String kokkNavn;
@@ -32,6 +35,8 @@ public void run() {
 
             // Logg når kokken starter
             App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+            LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+
             App.appendBestillingsinfo(kokkNavn + " → lager " + best.getMåltid() + " for kunde " + best.getKundeId());
 
             // Valgfritt: behold eller fjern denne
