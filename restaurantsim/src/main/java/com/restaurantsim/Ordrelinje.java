@@ -7,25 +7,21 @@ import java.util.concurrent.TimeUnit;
 public class Ordrelinje {
 
     private final BlockingQueue<Ordre> ordreKø;
-    private final BlockingQueue<Ordre> vipOrdreKø;
     private final int maxOrdreKø;
 
     public Ordrelinje(int maxOrdreKø) {
         this.maxOrdreKø = maxOrdreKø;
         this.ordreKø = new ArrayBlockingQueue<>(maxOrdreKø);
-        this.vipOrdreKø = new ArrayBlockingQueue<>(maxOrdreKø);
     }
 
     public void leggTilOrdre(Ordre ordre) throws InterruptedException{
-        if (ordre.getKunde().erVip()) {
-            vipOrdreKø.put(ordre);
-        } else {
+        if (ordreKø.size() < maxOrdreKø) {
             ordreKø.put(ordre);
         }
     }
 
     public Ordre getNesteOrdre(Kokk kokk) throws InterruptedException {
-        Ordre ordre = vipOrdreKø.poll(100, TimeUnit.MILLISECONDS);
+        Ordre ordre = ordreKø.poll(1, TimeUnit.SECONDS);
         if (ordre == null) {
             ordre = ordreKø.take();
         }
@@ -33,19 +29,15 @@ public class Ordrelinje {
     }
 
     public boolean erFull() {
-        return (vipOrdreKø.remainingCapacity() + ordreKø.remainingCapacity()) == 0;
+        return ordreKø.remainingCapacity() == 0;
     }
 
     public boolean erTom() {
-        return vipOrdreKø.isEmpty() && ordreKø.isEmpty();
+        return ordreKø.isEmpty();
     }
 
     public int maxOrdreKø() {
-        return ordreKø.size() + vipOrdreKø.size();
-    }
-
-    public int getVipOrdreKø() {
-        return vipOrdreKø.size();
+        return ordreKø.size();
     }
 
     public int getOrdreKø() {

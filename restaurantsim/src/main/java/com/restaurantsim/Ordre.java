@@ -1,7 +1,7 @@
 package com.restaurantsim;
 
 public class Ordre {
-    private static int nextId = 1;
+    private int nextId = 1;
     private final int id;
     private final Kunde kunde;
     private final Maltider maltider;
