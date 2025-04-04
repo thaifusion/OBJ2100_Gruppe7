@@ -2,17 +2,20 @@ package com.restaurantsim;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
 public class RestaurantSimulation {
+    private volatile boolean kjører = false;
+    private volatile boolean pausert = false;
+    private final Object pauseLock = new Object();
+
     private int happyCount = 0;
     private int angryCount = 0;
 
     // F.eks. lag en liste for å holde rede på kokker
     private final List<Kokk> kokker = new ArrayList<>();
     // Alternativt en HashMap for spesialisering (valgfritt)
-    private final Map<Måltider, Kokk> chefMap = new HashMap<>();
+    // private final Map<Måltider, Kokk> chefMap = new HashMap<>();
     private final Bestillingskø kø;
 
     public RestaurantSimulation(int køKapasitet) {
@@ -24,12 +27,9 @@ public class RestaurantSimulation {
      * Registrerer en kokk og starter tråden for denne kokken.
      * @param kokk
      */
-    public void registrerKokk(Kokk kokk) {
+    public void startKokk(Kokk kokk) {
         kokker.add(kokk);
-        // Hvis kokken har en spesialisering, kan du legge den i chefMap
-       // if (kokk.getSpesialisering() != null) {
-       //     chefMap.put((Måltider) kokk.getSpesialisering(), kokk);
-       // }
+        new Thread(kokk, kokk.getKokkNavn()).start();
     }
 
     public Bestillingskø getBestillingsKø() {
@@ -40,17 +40,80 @@ public class RestaurantSimulation {
      * Starter kundetråder (eksempelmetode).
      */
     public void startKunder() {
-        for (int i = 1; i <= 5; i++) {
-            Måltider randomRett = Måltider.values()[i % Måltider.values().length];
-            Kunde kunde = new Kunde(i, randomRett, kø);
-            
-            // Legger tekst i GUI-listen (f.eks. “Kunde 3 ønsker PASTA”)
-            App.addKundeTilListe("Kunde " + i + " ønsker " + randomRett);
-            new Thread(kunde, "Kunde-" + i).start();
+        new Thread(() -> {
+            Random random = new Random();
+            int kundeId = 1;
+            while(kjører) {
+                try {
+                    sjekkPause();
+                    Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
+                    Kunde kunde = new Kunde(kundeId, randomRett, kø, this);
+                    new Thread(kunde, "Kunde-" + kundeId).start();
+                    kundeId++;
+                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
+
+                    Thread.sleep(1000 + random.nextInt(2000));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+
+            }
+        }).start();
+    }
+
+    public void startSimulering() {
+        if (!kjører) {
+            kjører = true;
+            pausert = false;
+            startKunder();
+            App.appendLog("Simuleringen startet");
+        }
+    }
+
+    public void pauseSimulerling() {
+        if (kjører && !pausert) {
+            pausert = true;
+            App.appendLog("Simuleringen pausert");
+        }
+    }
+
+    public void fortsettSimulering() {
+        if (kjører && pausert) {
+            pausert = false;
+            synchronized (pauseLock) {
+                pauseLock.notifyAll();
+            }
+            App.appendLog("Simuleringen fortsetter");
+        }
+    }
+
+    public void stopSimulering() {
+        if (kjører) {
+            kjører = false;
+            pausert = false;
+            kokker.forEach(simulation -> simulation.interrupt());
+            App.appendLog("Simuleringen stoppet");
+        }
+    }
+
+    public boolean kjører() {
+        return kjører;
+    }
+
+    public boolean pausert() {
+        return pausert;
+    }
+
+    private void sjekkPause() throws InterruptedException {
+        synchronized (pauseLock) {
+            while (pausert) {
+                pauseLock.wait();
+            }
         }
     }
     
-// Metoder for å inkrementere:
+    // Metoder for å inkrementere:
     public synchronized void incrementHappy() {
         happyCount++;
     }
