@@ -4,10 +4,12 @@ public class Bestilling {
    
     private final int kundeId;
     private final Måltider måltid;
+    private final long bestillingstid; // Tidspunkt da kunden bestilte
 
-    public Bestilling(int kundeId, Måltider måltid) {
+    public Bestilling(int kundeId, Måltider måltid, long bestillingstid) {
         this.kundeId = kundeId;
         this.måltid = måltid;
+        this.bestillingstid = bestillingstid;
     }
 
     public int getKundeId() {
@@ -16,6 +18,10 @@ public class Bestilling {
 
     public Måltider getMåltid() {
         return måltid;
+    }
+
+    public long getBestillingstid() {
+        return bestillingstid;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class App extends Application {
     private static Label scoreboardLabel = new Label("Scoreboard: Happy: 0, Angry: 0");
     
     // Referanse til simuleringsobjektet
-    private RestaurantSimulation simulation;
+    public static RestaurantSimulation simulation;
 
     @Override
     public void start(Stage stage) {
@@ -175,8 +175,8 @@ public class App extends Application {
      */
     private void updateScoreboard() {
         Platform.runLater(() -> {
-            scoreboardLabel.setText("Scoreboard: Happy: " + simulation.getHappyCount() +
-                                      ", Angry: " + simulation.getAngryCount());
+            scoreboardLabel.setText("Scoreboard: 😊 Happy: " + simulation.getHappyCount() +
+                                      " |  😠 Angry: " + simulation.getAngryCount());
         });
     }
     
