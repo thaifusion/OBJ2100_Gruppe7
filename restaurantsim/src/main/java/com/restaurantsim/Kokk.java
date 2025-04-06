@@ -1,7 +1,5 @@
 package com.restaurantsim;
 
-import com.restaurantsim.LoggerUtil;
-
 
 public class Kokk implements Runnable {
 

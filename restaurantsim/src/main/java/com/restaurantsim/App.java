@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class App extends Application {
 
     private static TextArea logArea = new TextArea();
@@ -38,47 +39,65 @@ public class App extends Application {
         HBox tittelBox = new HBox(tittel);
         tittelBox.setAlignment(Pos.CENTER);
 
-
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
         Button startButton = new Button("Start");
         Button pauseButton = new Button("Pause");
-        Button stoppButton = new Button("Stopp");
+        Button stoppButton = new Button("Stopp");       
         buttonBox.getChildren().addAll(startButton, pauseButton, stoppButton);
+
+        Button visLoggKnapp = new Button("Vis logg");
+        HBox loggButtonBox = new HBox(visLoggKnapp);
+        loggButtonBox.setAlignment(Pos.CENTER);
+
 
         HBox scoreboardBox = new HBox(scoreboardLabel);
         scoreboardBox.setAlignment(Pos.CENTER);
         scoreboardLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        scoreboardLabel.setId("scoreboard");
         scoreboardBox.setPadding(new Insets(20, 0, 20, 0));
 
-        topPane.getChildren().addAll(tittelBox, buttonBox, scoreboardBox);
+        topPane.getChildren().addAll(tittelBox, buttonBox, loggButtonBox, scoreboardBox);
         root.setTop(topPane);
 
         // --- Venstre panel: aktive kunder ---
         VBox leftPane = new VBox(10);
         Label kunderLabel = new Label("Aktive kunder:");
         ListView<String> kunderListView = new ListView<>(aktiveKunder);
+        kunderListView.setPrefSize(200, 200);
         leftPane.getChildren().addAll(kunderLabel, kunderListView);
-        root.setLeft(leftPane);
 
         // --- Høyre panel: bestillingsinfo ---
         VBox rightPane = new VBox(10);
         Label ordreLabel = new Label("Bestillingsinfo:");
         bestillingInfoArea.setEditable(false);
+        bestillingInfoArea.setPrefSize(300, 200);
         rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
-        root.setRight(rightPane);
+
+        // --- Kombiner venstre og høyre panel i midten ---
+        HBox centerPane = new HBox(50); // spacing mellom venstre og høyre
+        centerPane.setAlignment(Pos.CENTER);
+        centerPane.setPadding(new Insets(10));
+        centerPane.getChildren().addAll(leftPane, rightPane);
+        root.setCenter(centerPane);
 
         // --- Bunnpanel: statuslinje og loggvisning ---
         VBox bottomPane = new VBox(5);
+        bottomPane.setPadding(new Insets(0, 0, 30, 0)); // Top, Right, Bottom, Left
         Label statusLabel = new Label("Status: Venter på bestillinger...");
         logArea.setEditable(false);
+        logArea.setPrefHeight(150);
         bottomPane.getChildren().addAll(statusLabel, logArea);
-        root.setBottom(bottomPane);
+
+        HBox bottomWrapper = new HBox(bottomPane);
+        bottomWrapper.setAlignment(Pos.CENTER);
+        root.setBottom(bottomWrapper);
 
         // --- Sceneoppsett ---
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.show();
 
         // --- Start simulering ---
@@ -107,6 +126,9 @@ public class App extends Application {
             // Legg til eventuell stopp av tråder her
         });
 
+        visLoggKnapp.setOnAction(e -> { LoggViewer.visLoggVindu(); });
+            
+    
         // --- Scoreboard oppdatering ---
         new AnimationTimer() {
             @Override
