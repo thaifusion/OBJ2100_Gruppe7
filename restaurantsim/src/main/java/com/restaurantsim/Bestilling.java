@@ -26,7 +26,7 @@ public class Bestilling {
 
     @Override
     public String toString() {
-        return "Bestilling{kundeId=" + kundeId + ", måltid=" + måltid + "}";
+        return "Bestilling [Kundenummer " + kundeId + ", Måltid: " + måltid + "]";
     }
 }
  
