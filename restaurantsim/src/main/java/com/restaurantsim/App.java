@@ -80,29 +80,57 @@ public class App extends Application {
         simulation = new RestaurantSimulation(5);
 
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
-        Kokk kokk1 = new Kokk("Bob", Måltider.PIZZA, simulation.getBestillingsKø());
-        Kokk kokk2 = new Kokk("Alice", null, simulation.getBestillingsKø());
-        simulation.registrerKokk(kokk1);
-        simulation.registrerKokk(kokk2);
+        Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
+        Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk3 = new Kokk("Arne Brimi", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.SALAT, simulation);
+        Kokk kokk4 = new Kokk("Lars Monsen", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.BURGER, simulation);
+        Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
-        // Start kundetråder
-        simulation.startKunder();
 
         // --- Koble kontrollknapper til handlinger ---
         startButton.setOnAction(e -> {
-            simulation.startKunder();
-            statusLabel.setText("Status: Simulering startet");
-            appendLog("Simulering startet.");
+            if (!simulation.kjører()) {
+                simulation.startSimulering();
+                startButton.setDisable(true);
+                pauseButton.setDisable(false);
+                stoppButton.setDisable(false);
+                simulation.startKokk(kokk1);
+                simulation.startKokk(kokk2);
+                simulation.startKokk(kokk3);
+                simulation.startKokk(kokk4);
+                simulation.startKokk(kokk5);
+                statusLabel.setText("Status: Simulering startet");
+                appendLog("Simulering startet.");
+            }   
         });
+
         pauseButton.setOnAction(e -> {
-            statusLabel.setText("Status: Simulering pausert");
-            appendLog("Simulering pausert.");
+            if (simulation.kjører()) {
+                if (simulation.pausert()) {
+                    simulation.fortsettSimulering();
+                    statusLabel.setText("Status: Simulering pausert");
+                    appendLog("Simulering pausert.");
+                    pauseButton.setText("Pause");
+                } else {
+                    simulation.pauseSimulerling();
+                    statusLabel.setText("Status: Simulering pausert");
+                    appendLog("Simulering pausert.");
+                    pauseButton.setText("Fortsett");
+                }
+            }
         });
+
         stoppButton.setOnAction(e -> {
+            simulation.stopSimulering();
+            startButton.setDisable(false);
+            pauseButton.setDisable(true);
+            stoppButton.setDisable(true);
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
-            // Her kan du legge til kode for å stoppe alle tråder
         });
+
+        pauseButton.setDisable(true);
+        stoppButton.setDisable(true);
         
         // --- Start en AnimationTimer for å oppdatere scoreboard kontinuerlig ---
         new AnimationTimer() {

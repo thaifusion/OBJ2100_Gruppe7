@@ -7,28 +7,28 @@ public class Kokk implements Runnable {
 
     private final String kokkNavn;
     private final Bestillingskø bestillingsKø;
+    private final Hentekø henteKø;
     private Måltider spesialisering;
+    private final RestaurantSimulation simulation;
 
-    public Kokk(String kokkNavn, Bestillingskø bestillingsKø) {
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kokkNavn = kokkNavn;
         this.bestillingsKø = bestillingsKø;
+        this.henteKø = henteKø;
+        this.simulation = simulation;
     }
     
-public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Måltider spesialisering) {
-    this.kokkNavn = kokkNavn;
-    this.bestillingsKø = bestillingsKø;
-    this.spesialisering = spesialisering;
-}
-
-public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestillingsKø) {
-    this.kokkNavn = kokkNavn;
-    this.spesialisering = spesialisering;
-    this.bestillingsKø = bestillingsKø;
-}
-
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, Måltider spesialisering, RestaurantSimulation simulation) {
+        this.kokkNavn = kokkNavn;
+        this.bestillingsKø = bestillingsKø;
+        this.henteKø = henteKø;
+        this.spesialisering = spesialisering;
+        this.simulation = simulation;
+    }
+           
 @Override
 public void run() {
-    while (true) {
+    while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
         try {
             // Hent neste bestilling (blokkerer om køen er tom).
             Bestilling best = bestillingsKø.hentBestilling();
@@ -70,8 +70,16 @@ public void run() {
 }
 
     public Måltider getSpesialisering() {
-    return spesialisering;
-}
+        return spesialisering;
+    }
+
+    public String getKokkNavn() {
+        return kokkNavn;
+    }
+
+    public void interrupt() {
+        Thread.currentThread().interrupt();
+    }
 
 
 }
