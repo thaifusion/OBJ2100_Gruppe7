@@ -31,24 +31,25 @@ public class Kunde implements Runnable {
                 }
                 Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
                 App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-                App.appendBestillingsinfo("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
+                LoggerUtil.loggTilFil("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
                 bestillingsKø.leggTilBestilling(best);
                 App.appendLog("Kunde " + kundeId + " venter på " + ønsketMåltid);
                 while (true) {
                     Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
                     if (ferdigBestilling.getKundeId() == kundeId) {
                         App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
+                        LoggerUtil.loggTilFil("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
+                        App.removeKundeFraListe("kunde-" + kundeId);
+
                         break;
                     }
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                 }
-                App.removeKundeFraListe("Kunde " + kundeId);
+                
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        } finally {
-            App.removeKundeFraListe("Kunde " + kundeId);
-        }
+        } 
     }
 
     public void interrupt() {

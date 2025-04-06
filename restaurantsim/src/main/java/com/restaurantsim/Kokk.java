@@ -48,6 +48,7 @@ public void run() {
             // Ferdig melding
             App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
             App.appendBestillingsinfo(kokkNavn + " ✓ ferdig for kunde " + best.getKundeId());
+            henteKø.leggTilHenteKø(best);
 
             // Regn ut ventetid
             long nåTid = System.currentTimeMillis();
