@@ -7,13 +7,15 @@ public class Kunde implements Runnable {
     private final int kundeId;
     private final Måltider ønsketMåltid;
     private final Bestillingskø bestillingsKø;
+    private final long bestillingstid;
     private final Hentekø henteKø;
     private final RestaurantSimulation simulation;
 
-    public Kunde(int kundeId, Måltider ønsketMåltid, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
+    public Kunde(int kundeId, Måltider ønsketMåltid, long bestillingstid, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kundeId = kundeId;
         this.ønsketMåltid = ønsketMåltid;
         this.bestillingsKø = bestillingsKø;
+        this.bestillingstid = bestillingstid;
         this.henteKø = henteKø;
         this.simulation = simulation;
     }
@@ -27,7 +29,7 @@ public class Kunde implements Runnable {
                 while (simulation.pausert()) {
                     Thread.sleep(500);
                 }
-                Bestilling best = new Bestilling(kundeId, ønsketMåltid);
+                Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
                 App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
                 App.appendBestillingsinfo("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
                 bestillingsKø.leggTilBestilling(best);

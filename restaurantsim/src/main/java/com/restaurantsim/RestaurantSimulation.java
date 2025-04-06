@@ -53,7 +53,8 @@ public class RestaurantSimulation {
                 try {
                     sjekkPause();
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
-                    Kunde kunde = new Kunde(kundeId, randomRett, kø, henteKø, this);
+                    long bestillingstid = System.currentTimeMillis();
+                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, kø, henteKø, this);
                     new Thread(kunde, "Kunde-" + kundeId).start();
                     
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);

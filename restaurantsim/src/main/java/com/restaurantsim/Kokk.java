@@ -25,25 +25,10 @@ public class Kokk implements Runnable {
         this.spesialisering = spesialisering;
         this.simulation = simulation;
     }
-
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
-            try {
-                // Hent neste bestilling (blokkerer om køen er tom).
-                Bestilling best = bestillingsKø.hentBestilling();
-                App.appendLog(kokkNavn + " tilbereder: " + best);
-                App.appendBestillingsinfo("Kokk " + kokkNavn + " henter bestilling for kunde " + best.getKundeId() + " (" + best.getMåltid() + ")");
-                System.out.println(kokkNavn + " tilbereder: " + best);
-                 
-                // Simuler tilberedningstid (f.eks. 2 sek).
-                Thread.sleep(2000);
-                App.appendLog(kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
-                App.appendBestillingsinfo("Kokk " + kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
-                henteKø.leggTilHenteKø(best);               
+           
 @Override
 public void run() {
-    while (true) {
+    while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
         try {
             // Hent neste bestilling (blokkerer om køen er tom).
             Bestilling best = bestillingsKø.hentBestilling();
