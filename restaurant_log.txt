@@ -8,3 +8,13 @@
 2025-04-04T20:09:35.784441500 - [Kokk Alice] Tilbereder PASTA for kunde 3
 2025-04-04T20:09:35.784441500 - [Kokk Bob] Tilbereder PASTA for kunde 4
 2025-04-04T20:09:45.788282900 - [Kokk Bob] Tilbereder SALAT for kunde 5
+2025-04-06T19:15:18.148622100 - [Kokk Alice] Tilbereder PIZZA for kunde 4
+2025-04-06T19:15:18.149146100 - [Kokk Bob] Tilbereder BURGER for kunde 3
+2025-04-06T19:15:28.196937200 - [Kokk Bob] Tilbereder BURGER for kunde 2
+2025-04-06T19:15:28.198931100 - [Kokk Alice] Tilbereder PIZZA for kunde 1
+2025-04-06T19:15:38.201716800 - [Kokk Bob] Tilbereder PASTA for kunde 5
+2025-04-06T19:16:13.235836400 - [Kokk Alice] Tilbereder PASTA for kunde 1
+2025-04-06T19:16:13.237840600 - [Kokk Bob] Tilbereder PIZZA for kunde 2
+2025-04-06T19:16:23.239142700 - [Kokk Alice] Tilbereder SALAT for kunde 3
+2025-04-06T19:16:23.242139100 - [Kokk Bob] Tilbereder BURGER for kunde 4
+2025-04-06T19:16:33.242881600 - [Kokk Alice] Tilbereder SALAT for kunde 5
