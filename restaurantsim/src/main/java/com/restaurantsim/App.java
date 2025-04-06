@@ -102,13 +102,6 @@ public class App extends Application {
 
         // --- Start simulering ---
         simulation = new RestaurantSimulation(5);
-<<<<<<< HEAD
-        Kokk kokk1 = new Kokk("Bob", Måltider.PIZZA, simulation.getBestillingsKø());
-        Kokk kokk2 = new Kokk("Alice", null, simulation.getBestillingsKø());
-        simulation.registrerKokk(kokk1);
-        simulation.registrerKokk(kokk2);
-        simulation.startKunder();
-=======
 
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
@@ -117,9 +110,8 @@ public class App extends Application {
         Kokk kokk4 = new Kokk("Lars Monsen", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.BURGER, simulation);
         Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
->>>>>>> JørgenMergeTesting
 
-        // --- Knappehandlinger ---
+        // --- Koble kontrollknapper til handlinger ---
         startButton.setOnAction(e -> {
             if (!simulation.kjører()) {
                 simulation.startSimulering();
@@ -159,22 +151,15 @@ public class App extends Application {
             stoppButton.setDisable(true);
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
-<<<<<<< HEAD
-            // Legg til eventuell stopp av tråder her
         });
+
+        pauseButton.setDisable(true);
+        stoppButton.setDisable(true);
 
         visLoggKnapp.setOnAction(e -> { LoggViewer.visLoggVindu(); });
             
     
         // --- Scoreboard oppdatering ---
-=======
-        });
-
-        pauseButton.setDisable(true);
-        stoppButton.setDisable(true);
-        
-        // --- Start en AnimationTimer for å oppdatere scoreboard kontinuerlig ---
->>>>>>> JørgenMergeTesting
         new AnimationTimer() {
             @Override
             public void handle(long now) {
