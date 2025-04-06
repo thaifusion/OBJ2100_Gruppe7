@@ -35,10 +35,10 @@ public class Kunde implements Runnable {
                 while (true) {
                     Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
                     if (ferdigBestilling.getKundeId() == kundeId) {
-                        App.appendLog("Kunde " + kundeId + " mottokk sin bestilling: " + ferdigBestilling);
+                        App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
                         break;
                     }
-                    Thread.sleep(100);
+                    Thread.sleep(5000);
                 }
                 App.removeKundeFraListe("Kunde " + kundeId);
             }
