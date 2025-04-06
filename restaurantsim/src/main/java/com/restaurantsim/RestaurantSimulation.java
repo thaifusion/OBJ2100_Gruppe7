@@ -14,6 +14,7 @@ public class RestaurantSimulation {
 
     // F.eks. lag en liste for å holde rede på kokker
     private final List<Kokk> kokker = new ArrayList<>();
+    private final List<Kunde> kunder = new ArrayList<>();
     // Alternativt en HashMap for spesialisering (valgfritt)
     // private final Map<Måltider, Kokk> chefMap = new HashMap<>();
     private final Bestillingskø kø;
@@ -56,10 +57,10 @@ public class RestaurantSimulation {
                     long bestillingstid = System.currentTimeMillis();
                     Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, kø, henteKø, this);
                     new Thread(kunde, "Kunde-" + kundeId).start();
-                    
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;
                     Thread.sleep(1000 + random.nextInt(2000));
+                    
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -98,6 +99,7 @@ public class RestaurantSimulation {
             kjører = false;
             pausert = false;
             kokker.forEach(simulation -> simulation.interrupt());
+            kunder.forEach(kunde -> kunde.interrupt());
             App.appendLog("Simuleringen stoppet");
         }
     }
