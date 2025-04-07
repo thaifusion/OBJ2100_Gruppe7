@@ -1,0 +1,56 @@
+.root {
+    background-color: #2e2e2e; 
+    -fx-background-color: #2e2e2e; /* Mørk grå */
+    font-family: "Segoe UI", sans-serif;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #f0f0f0; /* Lys tekst */
+    font-size: 14px; 
+    -fx-font-size: 14px;
+}
+
+.label.title {
+    font-size: 22px; 
+    -fx-font-size: 22px;
+    font-weight: bold; 
+    -fx-font-weight: bold; 
+}
+
+/* Knapper */
+.button {
+    background-color: #3b3b3b; 
+    -fx-background-color: #3b3b3b;
+    -fx-text-fill: white;
+    font-weight: bold; 
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+}
+
+.button:hover {
+    background-color: #4e4e4e; 
+    -fx-background-color: #4e4e4e;
+}
+
+/* ListView og TextArea */
+.list-view, .text-area {
+    background-color: #ffffff; 
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2e2e2e;
+    border-color: #555; 
+    -fx-border-color: #555;
+    border-radius: 6px; 
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+/* Scoreboard-stil */
+#scoreboard {
+    font-size: 16px; 
+    -fx-font-size: 16px;
+    -fx-text-fill: #87cefa;
+    font-weight: bold; 
+    -fx-font-weight: bold;
+}
