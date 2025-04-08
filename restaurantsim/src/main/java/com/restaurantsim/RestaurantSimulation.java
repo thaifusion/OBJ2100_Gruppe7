@@ -53,14 +53,14 @@ public class RestaurantSimulation {
             while(kjører) {
                 try {
                     sjekkPause();
+                    if (!kjører) break;
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
                     long bestillingstid = System.currentTimeMillis();
                     Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, kø, henteKø, this);
-                    new Thread(kunde, "Kunde-" + kundeId).start();
+                    new Thread(kunde, "" + kundeId).start();
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;
                     Thread.sleep(1000 + random.nextInt(2000));
-                    
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -77,13 +77,6 @@ public class RestaurantSimulation {
         }
     }
 
-    public void pauseSimulerling() {
-        if (kjører && !pausert) {
-            pausert = true;
-            App.appendLog("Simuleringen pausert");
-        }
-    }
-
     public void fortsettSimulering() {
         if (kjører && pausert) {
             pausert = false;
@@ -95,10 +88,10 @@ public class RestaurantSimulation {
     }
 
     public void stopSimulering() {
-        if (kjører) {
+        if (kjører && !pausert) {
             kjører = false;
-            pausert = false;
-            kokker.forEach(simulation -> simulation.interrupt());
+            pausert = true;
+            kokker.forEach(kokker -> kokker.interrupt());
             kunder.forEach(kunde -> kunde.interrupt());
             App.appendLog("Simuleringen stoppet");
         }

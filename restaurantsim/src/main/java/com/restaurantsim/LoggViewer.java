@@ -35,5 +35,6 @@ public class LoggViewer {
         Scene scene = new Scene(layout);
         loggVindu.setScene(scene);
         loggVindu.show();
+        System.out.println("Antall aktive tråder: " + Thread.activeCount());
     }
 }

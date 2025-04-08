@@ -1,5 +1,7 @@
 package com.restaurantsim;
 
+
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,9 +44,8 @@ public class App extends Application {
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
         Button startButton = new Button("Start");
-        Button pauseButton = new Button("Pause");
         Button stoppButton = new Button("Stopp");       
-        buttonBox.getChildren().addAll(startButton, pauseButton, stoppButton);
+        buttonBox.getChildren().addAll(startButton, stoppButton);
 
         Button visLoggKnapp = new Button("Vis logg");
         HBox loggButtonBox = new HBox(visLoggKnapp);
@@ -102,7 +103,7 @@ public class App extends Application {
 
         // --- Start simulering ---
         simulation = new RestaurantSimulation(5);
-
+        
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
         Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
@@ -110,13 +111,11 @@ public class App extends Application {
         Kokk kokk4 = new Kokk("Lars Monsen", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.BURGER, simulation);
         Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
-
         // --- Koble kontrollknapper til handlinger ---
         startButton.setOnAction(e -> {
             if (!simulation.kjører()) {
                 simulation.startSimulering();
                 startButton.setDisable(true);
-                pauseButton.setDisable(false);
                 stoppButton.setDisable(false);
                 simulation.startKokk(kokk1);
                 simulation.startKokk(kokk2);
@@ -128,32 +127,13 @@ public class App extends Application {
             }   
         });
 
-        pauseButton.setOnAction(e -> {
-            if (simulation.kjører()) {
-                if (simulation.pausert()) {
-                    simulation.fortsettSimulering();
-                    statusLabel.setText("Status: Simulering pausert");
-                    appendLog("Simulering pausert.");
-                    pauseButton.setText("Pause");
-                } else {
-                    simulation.pauseSimulerling();
-                    statusLabel.setText("Status: Simulering pausert");
-                    appendLog("Simulering pausert.");
-                    pauseButton.setText("Fortsett");
-                }
-            }
-        });
-
         stoppButton.setOnAction(e -> {
             simulation.stopSimulering();
             startButton.setDisable(false);
-            pauseButton.setDisable(true);
             stoppButton.setDisable(true);
             statusLabel.setText("Status: Simulering stoppet");
-            appendLog("Simulering stoppet.");
         });
 
-        pauseButton.setDisable(true);
         stoppButton.setDisable(true);
 
         visLoggKnapp.setOnAction(e -> { LoggViewer.visLoggVindu(); });
