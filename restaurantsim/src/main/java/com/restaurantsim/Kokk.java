@@ -5,80 +5,50 @@ public class Kokk implements Runnable {
 
     private final String kokkNavn;
     private final Bestillingskø bestillingsKø;
-    private final Hentekø henteKø;
-    private Måltider spesialisering;
-    private final RestaurantSimulation simulation;
+    private final Måltider spesialisering;
 
-    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
-        this.kokkNavn = kokkNavn;
-        this.bestillingsKø = bestillingsKø;
-        this.henteKø = henteKø;
-        this.simulation = simulation;
+    // Konstruktører
+    public Kokk(String kokkNavn, Bestillingskø bestillingsKø) {
+        this(kokkNavn, null, bestillingsKø);
     }
-    
-    public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, Måltider spesialisering, RestaurantSimulation simulation) {
+
+    public Kokk(String kokkNavn, Måltider spesialisering, Bestillingskø bestillingsKø) {
         this.kokkNavn = kokkNavn;
-        this.bestillingsKø = bestillingsKø;
-        this.henteKø = henteKø;
         this.spesialisering = spesialisering;
-        this.simulation = simulation;
+        this.bestillingsKø = bestillingsKø;
     }
-           
-@Override
-public void run() {
-    while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
-        try {
-            // Hent neste bestilling (blokkerer om køen er tom).
-            Bestilling best = bestillingsKø.hentBestilling();
 
-            // Logg når kokken starter
-            App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-            LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                // Hent neste bestilling fra køen
+                Bestilling best = bestillingsKø.hentBestilling();
 
-            App.appendBestillingsinfo(kokkNavn + " → lager " + best.getMåltid() + " for kunde " + best.getKundeId());
+                App.appendLog("[Kokk] " + kokkNavn + " henter bestilling fra kunde " + best.getKundeId());
+                App.appendBestillingsinfo("Kokk " + kokkNavn + " tilbereder " + best.getMåltid() +
+                        " for kunde " + best.getKundeId());
 
-            // Valgfritt: behold eller fjern denne
-            //System.out.println(kokkNavn + " tilbereder: " + best);
-            
-            // Simuler tilberedningstid (10 sek).
-            Thread.sleep(10000);
+                System.out.println("[Kokk] " + kokkNavn + " tilbereder: " + best);
 
-            // Ferdig melding
-            App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-            App.appendBestillingsinfo(kokkNavn + " ✓ ferdig for kunde " + best.getKundeId());
-            henteKø.leggTilHenteKø(best);
+                // Simuler tilberedningstid
+                Thread.sleep(2000);
 
-            // Regn ut ventetid
-            long nåTid = System.currentTimeMillis();
-            long ventetid = nåTid - best.getBestillingstid(); // i millisekunder
+                App.appendLog("[Kokk] " + kokkNavn + " er ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendBestillingsinfo("Kokk " + kokkNavn + " ferdigstilt " + best.getMåltid() +
+                        " for kunde " + best.getKundeId());
 
-            // Bestem happy vs. angry (grense: 12 sekunder = 12000 ms)
-            if (ventetid <= 12000) {
-                App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementHappy(); // 
-            } else {
-                App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementAngry(); 
+                System.out.println("[Kokk] " + kokkNavn + " ferdig med bestilling for kunde " + best.getKundeId());
+
+            } catch (InterruptedException e) {
+                App.appendLog("[Kokk] " + kokkNavn + " avbrutt og avslutter kokketråden.");
+                System.out.println("[Kokk] " + kokkNavn + " avbrutt og avslutter.");
+                break;
             }
-
-        } catch (InterruptedException e) {
-            App.appendLog("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
-            break;
         }
     }
-}
 
     public Måltider getSpesialisering() {
         return spesialisering;
     }
-
-    public String getKokkNavn() {
-        return kokkNavn;
-    }
-
-    public void interrupt() {
-        Thread.currentThread().interrupt();
-    }
-
-
 }

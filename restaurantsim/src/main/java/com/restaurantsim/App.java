@@ -1,3 +1,4 @@
+// App.java
 package com.restaurantsim;
 
 import javafx.animation.AnimationTimer;
@@ -23,6 +24,9 @@ public class App extends Application {
     private static TextArea logArea = new TextArea();
     private static TextArea bestillingInfoArea = new TextArea();
     private static ObservableList<String> aktiveKunder = FXCollections.observableArrayList();
+    private static Label scoreboardLabel = new Label("Scoreboard: Happy: 0, Angry: 0");
+
+    private RestaurantSimulation simulation;
     private static Label scoreboardLabel = new Label("Scoreboard: 😊 Happy: 0 | 😠 Angry: 0");
     public static RestaurantSimulation simulation;
 
@@ -128,6 +132,7 @@ public class App extends Application {
             }   
         });
 
+
         pauseButton.setOnAction(e -> {
             if (simulation.kjører()) {
                 if (simulation.pausert()) {
@@ -143,6 +148,7 @@ public class App extends Application {
                 }
             }
         });
+
 
         stoppButton.setOnAction(e -> {
             simulation.stopSimulering();
@@ -168,6 +174,7 @@ public class App extends Application {
         }.start();
     }
 
+
     public static void appendLog(String message) {
         Platform.runLater(() -> logArea.appendText(message + "\n"));
     }
@@ -175,6 +182,7 @@ public class App extends Application {
     public static void addKundeTilListe(String kundeNavn) {
         Platform.runLater(() -> aktiveKunder.add(kundeNavn));
     }
+
 
     public static void removeKundeFraListe(String kundeNavn) {
         Platform.runLater(() -> aktiveKunder.remove(kundeNavn));
@@ -190,6 +198,7 @@ public class App extends Application {
                                     " | 😠 Angry: " + simulation.getAngryCount());
         });
     }
+
 
     public static void main(String[] args) {
         launch(args);

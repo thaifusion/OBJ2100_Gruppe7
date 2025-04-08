@@ -1,7 +1,5 @@
 package com.restaurantsim;
 
- 
-
 public class Kunde implements Runnable {
 
     private final int kundeId;
@@ -19,37 +17,28 @@ public class Kunde implements Runnable {
         this.henteKø = henteKø;
         this.simulation = simulation;
     }
-    
-    
 
     @Override
     public void run() {
         try {
-            while(!Thread.currentThread().isInterrupted() && simulation.kjører()) {
-                while (simulation.pausert()) {
-                    Thread.sleep(500);
-                }
-                Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
-                App.appendLog("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-                LoggerUtil.loggTilFil("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-                bestillingsKø.leggTilBestilling(best);
-                App.appendLog("Kunde " + kundeId + " venter på " + ønsketMåltid);
-                while (true) {
-                    Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
-                    if (ferdigBestilling.getKundeId() == kundeId) {
-                        App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
-                        LoggerUtil.loggTilFil("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
-                        App.removeKundeFraListe("kunde-" + kundeId);
+            Bestilling best = new Bestilling(kundeId, ønsketMåltid);
 
-                        break;
-                    }
-                    Thread.sleep(1000);
-                }
-                
-            }
+            String melding = "🍽️ Kunde #" + kundeId + " ønsker \"" + ønsketMåltid + "\"";
+            App.appendLog(melding);
+            App.appendBestillingsinfo(melding);
+
+            bestillingsKø.leggTilBestilling(best);
+
+            System.out.println(melding + " – lagt i køen");
+
+            Thread.sleep(2000);
+
+            App.appendLog("⏳ Kunde #" + kundeId + " har ventet og er fortsatt i restauranten...");
+
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } 
+            App.appendLog("❌ Kunde #" + kundeId + " ble avbrutt: " + e.getMessage());
+            System.err.println("Kunde #" + kundeId + " avbrutt: " + e.getMessage());
+        }
     }
 
     public void interrupt() {
