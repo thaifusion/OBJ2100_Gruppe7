@@ -12,60 +12,13 @@ public class RestaurantSimulation {
     private int happyCount = 0;
     private int angryCount = 0;
 
-    // F.eks. lag en liste for å holde rede på kokker
     private final List<Kokk> kokker = new ArrayList<>();
-    private final List<Kunde> kunder = new ArrayList<>();
-    // Alternativt en HashMap for spesialisering (valgfritt)
-    // private final Map<Måltider, Kokk> chefMap = new HashMap<>();
-    private final Bestillingskø kø;
-    private final Hentekø henteKø;
+    private final Bestillingskø bestillingsKø;
+    private final Hentekø hentekø;
 
     public RestaurantSimulation(int køKapasitet) {
-        this.kø = new Bestillingskø(køKapasitet);
-        this.henteKø = new Hentekø(køKapasitet);
-    }
-    
-
-    /**
-     * Registrerer en kokk og starter tråden for denne kokken.
-     * @param kokk
-     */
-    public void startKokk(Kokk kokk) {
-        kokker.add(kokk);
-        new Thread(kokk, kokk.getKokkNavn()).start();
-    }
-
-    public Bestillingskø getBestillingsKø() {
-        return kø;
-    }
-
-    public Hentekø getHentekø() {
-        return henteKø;
-    }
-
-    /**
-     * Starter kundetråder (eksempelmetode).
-     */
-    public void startKunder() {
-        new Thread(() -> {
-            Random random = new Random();
-            int kundeId = 1;
-            while(kjører) {
-                try {
-                    sjekkPause();
-                    Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
-                    long bestillingstid = System.currentTimeMillis();
-                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, kø, henteKø, this);
-                    new Thread(kunde, "Kunde-" + kundeId).start();
-                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
-                    kundeId++;
-                    Thread.sleep(1000 + random.nextInt(2000));
-                    
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }).start();
+        this.bestillingsKø = new Bestillingskø(køKapasitet);
+        this.hentekø = new Hentekø(køKapasitet);
     }
 
     public void startSimulering() {
@@ -73,69 +26,76 @@ public class RestaurantSimulation {
             kjører = true;
             pausert = false;
             startKunder();
-            App.appendLog("Simuleringen startet");
+            App.appendLog("Simuleringen startet.");
         }
     }
 
-    public void pauseSimulerling() {
-        if (kjører && !pausert) {
-            pausert = true;
-            App.appendLog("Simuleringen pausert");
-        }
-    }
-
-    public void fortsettSimulering() {
-        if (kjører && pausert) {
-            pausert = false;
-            synchronized (pauseLock) {
-                pauseLock.notifyAll();
-            }
-            App.appendLog("Simuleringen fortsetter");
-        }
+    public void startKokk(Kokk kokk) {
+        kokker.add(kokk);
+        Thread t = new Thread(kokk);
+        t.start();
     }
 
     public void stopSimulering() {
         if (kjører) {
             kjører = false;
             pausert = false;
-            kokker.forEach(simulation -> simulation.interrupt());
-            kunder.forEach(kunde -> kunde.interrupt());
-            App.appendLog("Simuleringen stoppet");
+
+            // Stop alle kokker
+            for (Kokk kokk : kokker) {
+                kokk.stop(); // bruker vår stop-metode
+            }
+
+            App.appendLog("Simuleringen stoppet.");
         }
+    }
+
+    public void startKunder() {
+        new Thread(() -> {
+            Random rand = new Random();
+            int kundeId = 1;
+            while (kjører) {
+                try {
+                    Måltider måltid = Måltider.values()[rand.nextInt(Måltider.values().length)];
+                    long bestillingstid = System.currentTimeMillis();
+                    Kunde kunde = new Kunde(kundeId, måltid, bestillingstid, bestillingsKø, hentekø, this);
+                    new Thread(kunde).start();
+                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + måltid);
+                    kundeId++;
+                    Thread.sleep(1000 + rand.nextInt(2000));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }).start();
     }
 
     public boolean kjører() {
         return kjører;
     }
 
-    public boolean pausert() {
-        return pausert;
+    public Bestillingskø getBestillingsKø() {
+        return bestillingsKø;
     }
 
-    private void sjekkPause() throws InterruptedException {
-        synchronized (pauseLock) {
-            while (pausert) {
-                pauseLock.wait();
-            }
-        }
+    public Hentekø getHentekø() {
+        return hentekø;
     }
-    
-    // Metoder for å inkrementere:
+
     public synchronized void incrementHappy() {
         happyCount++;
     }
-    
+
     public synchronized void incrementAngry() {
         angryCount++;
     }
-    
+
     public synchronized int getHappyCount() {
         return happyCount;
     }
-    
+
     public synchronized int getAngryCount() {
         return angryCount;
     }
-    
 }
-

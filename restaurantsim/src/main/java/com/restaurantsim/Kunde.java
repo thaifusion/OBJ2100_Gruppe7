@@ -9,7 +9,8 @@ public class Kunde implements Runnable {
     private final Hentekø henteKø;
     private final RestaurantSimulation simulation;
 
-    public Kunde(int kundeId, Måltider ønsketMåltid, long bestillingstid, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
+    public Kunde(int kundeId, Måltider ønsketMåltid, long bestillingstid,
+                 Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kundeId = kundeId;
         this.ønsketMåltid = ønsketMåltid;
         this.bestillingsKø = bestillingsKø;
@@ -21,7 +22,8 @@ public class Kunde implements Runnable {
     @Override
     public void run() {
         try {
-            Bestilling best = new Bestilling(kundeId, ønsketMåltid);
+            // Opprett bestilling
+            Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
 
             String melding = "🍽️ Kunde #" + kundeId + " ønsker \"" + ønsketMåltid + "\"";
             App.appendLog(melding);
@@ -31,17 +33,17 @@ public class Kunde implements Runnable {
 
             System.out.println(melding + " – lagt i køen");
 
+            // Simuler at kunden venter
             Thread.sleep(2000);
-
             App.appendLog("⏳ Kunde #" + kundeId + " har ventet og er fortsatt i restauranten...");
 
         } catch (InterruptedException e) {
-            App.appendLog("❌ Kunde #" + kundeId + " ble avbrutt: " + e.getMessage());
+            App.appendLog("Kunde #" + kundeId + " ble avbrutt: " + e.getMessage());
             System.err.println("Kunde #" + kundeId + " avbrutt: " + e.getMessage());
         }
     }
 
     public void interrupt() {
-        Thread.currentThread().interrupt();
+        Thread.currentThread().interrupt();  // Merk: Denne "avbryter" bare nåværende tråd, bør brukes med kontroll
     }
 }
