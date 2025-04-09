@@ -53,7 +53,7 @@ public class Kokk implements Runnable {
                 App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(ferdig);
-                henteKø.leggTilHenteKø(best);
+                hentekø.leggTilHenteKø(best);
     
                 long nåTid = System.currentTimeMillis();
                 long ventetid = nåTid - best.getBestillingstid();
