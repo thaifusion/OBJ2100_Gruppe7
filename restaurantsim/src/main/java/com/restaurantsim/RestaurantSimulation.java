@@ -33,9 +33,7 @@ public class RestaurantSimulation {
      */
     public void startKokk(Kokk kokk) {
         kokker.add(kokk);
-        Thread t = new Thread(kokk, kokk.getKokkNavn());
-        kokketråder.add(t);
-        t.start();
+        new Thread(kokk, kokk.getKokkNavn()).start();
     }
 
     public Bestillingskø getBestillingsKø() {
