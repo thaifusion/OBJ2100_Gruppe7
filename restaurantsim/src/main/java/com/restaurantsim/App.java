@@ -32,6 +32,7 @@ public class App extends Application {
         Button pauseButton = new Button("Pause");
         Button stoppButton = new Button("Stopp");
         Button visLoggKnapp = new Button("Vis logg");
+        visLoggKnapp.setOnAction(e -> LoggViewer.visLoggVindu());
 
         HBox tittelBox = new HBox(title);
         tittelBox.setAlignment(Pos.CENTER_LEFT);
@@ -78,6 +79,7 @@ public class App extends Application {
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();

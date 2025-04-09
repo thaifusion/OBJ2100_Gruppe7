@@ -52,9 +52,8 @@ public class RestaurantSimulation {
             kjører = false;
             pausert = false;
 
-            // Stop alle kokker
             for (Kokk kokk : kokker) {
-                kokk.stop();
+                kokk.stop(); // kaller stop()-metode i Kokk
             }
 
             App.appendLog("Simuleringen stoppet.");
@@ -103,6 +102,10 @@ public class RestaurantSimulation {
 
     public boolean kjører() {
         return kjører;
+    }
+
+    public boolean pausert() {
+        return pausert;
     }
 
     public Bestillingskø getBestillingsKø() {

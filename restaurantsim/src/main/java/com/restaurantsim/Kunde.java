@@ -22,28 +22,40 @@ public class Kunde implements Runnable {
     @Override
     public void run() {
         try {
-            // Opprett bestilling
-            Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
+            while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
+                while (simulation.pausert()) {
+                    Thread.sleep(500);
+                }
 
-            String melding = "🍽️ Kunde #" + kundeId + " ønsker \"" + ønsketMåltid + "\"";
-            App.appendLog(melding);
-            App.appendBestillingsinfo(melding);
+                Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
 
-            bestillingsKø.leggTilBestilling(best);
+                String melding = "Kunde #" + kundeId + " ønsker \"" + ønsketMåltid + "\"";
+                App.appendLog(melding);
+                App.appendBestillingsinfo(melding);
 
-            System.out.println(melding + " – lagt i køen");
+                bestillingsKø.leggTilBestilling(best);
+                App.appendLog("Kunde #" + kundeId + " venter på " + ønsketMåltid);
 
-            // Simuler at kunden venter
-            Thread.sleep(2000);
-            App.appendLog("⏳ Kunde #" + kundeId + " har ventet og er fortsatt i restauranten...");
+                // Vente på at kokken legger ferdig bestilling i henteKø
+                while (true) {
+                    Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
+                    if (ferdigBestilling.getKundeId() == kundeId) {
+                        App.appendLog("Kunde #" + kundeId + " mottok sin bestilling: " + ferdigBestilling.getMåltid());
+                        App.removeKundeFraListe("Kunde " + kundeId + " ønsker " + ønsketMåltid);
+                        break;
+                    }
+                    Thread.sleep(1000);
+                }
 
+                break; // Ferdig med løkken etter henting
+            }
         } catch (InterruptedException e) {
-            App.appendLog("Kunde #" + kundeId + " ble avbrutt: " + e.getMessage());
-            System.err.println("Kunde #" + kundeId + " avbrutt: " + e.getMessage());
+            App.appendLog("Kunde #" + kundeId + " ble avbrutt.");
+            Thread.currentThread().interrupt();
         }
     }
-    
+
     public void interrupt() {
-        Thread.currentThread().interrupt();  // Merk: Denne "avbryter" bare nåværende tråd, bør brukes med kontroll
+        Thread.currentThread().interrupt();
     }
 }
