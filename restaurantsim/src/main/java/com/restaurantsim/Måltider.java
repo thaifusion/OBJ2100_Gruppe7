@@ -1,35 +1,20 @@
 package com.restaurantsim;
 
 public enum Måltider {
-    PIZZA("Pizza", 299, "Gluten"),
-    PASTA("Pasta", 269, "Gluten"),
-    SALAT("Salat", 199, "Nøtter"),
-    BURGER("Burger", 249, "Gluten");
+    PIZZA(12000),
+    PASTA(9000),
+    SALAT(5000),
+    BIFF(15000),
+    BURGER(8000);
 
-    private final String visningsnavn;
-    private final int pris;
-    private final String allergener;
+    private final int tilberedningstid; // Tid i millisekunder
 
-    Måltider(String visningsnavn, int pris, String allergener) {
-        this.visningsnavn = visningsnavn;
-        this.pris = pris;
-        this.allergener = allergener;
+    Måltider(int tilberedningstid) {
+        this.tilberedningstid = tilberedningstid;
+    }   
+
+    public int getTilberedningstid() {
+        return tilberedningstid;
     }
 
-    public String getVisningsnavn() {
-        return visningsnavn;
-    }
-
-    public int getPris() {
-        return pris;
-    }
-
-    public String getAllergener() {
-        return allergener;
-    }
-
-    @Override
-    public String toString() {
-        return visningsnavn + " (" + pris + " kr, Allergener: " + allergener + ")";
-    }
-} 
+}

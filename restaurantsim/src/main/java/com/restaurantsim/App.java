@@ -9,8 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -87,12 +92,14 @@ public class App extends Application {
         // Initier simulering
         simulation = new RestaurantSimulation(5);
 
-        // Registrer kokker
+        // Opprettelse av kokker med spesialiseringer
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", Måltider.PASTA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
-        Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation); // allrounder
+        Kokk kokk2 = new Kokk("Jamie Oliver", Måltider.PIZZA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         Kokk kokk4 = new Kokk("Lars Monsen", Måltider.BURGER, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
-        Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation); // allrounder
+        Kokk kokk5 = new Kokk("Gordon Ramsay", Måltider.BIFF, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+
+
 
         startButton.setOnAction(e -> {
             if (!simulation.kjører()) {
