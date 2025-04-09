@@ -13,6 +13,7 @@ public class RestaurantSimulation {
     private int angryCount = 0;
 
     // F.eks. lag en liste for å holde rede på kokker
+    private final List<Thread> kokketråder = new ArrayList<>();
     private final List<Kokk> kokker = new ArrayList<>();
     private final List<Kunde> kunder = new ArrayList<>();
     // Alternativt en HashMap for spesialisering (valgfritt)
@@ -90,8 +91,11 @@ public class RestaurantSimulation {
     public void stopSimulering() {
         if (kjører && !pausert) {
             kjører = false;
-            pausert = true;
-            kokker.forEach(kokker -> kokker.interrupt());
+            pausert = false;
+            
+            for (Thread t : kokketråder) {
+                t.interrupt();
+            }
             kunder.forEach(kunde -> kunde.interrupt());
             App.appendLog("Simuleringen stoppet");
         }
@@ -105,7 +109,7 @@ public class RestaurantSimulation {
         return pausert;
     }
 
-    private void sjekkPause() throws InterruptedException {
+    public void sjekkPause() throws InterruptedException {
         synchronized (pauseLock) {
             while (pausert) {
                 pauseLock.wait();
