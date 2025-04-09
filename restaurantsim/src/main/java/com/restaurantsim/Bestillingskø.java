@@ -20,7 +20,7 @@ public class Bestillingskø {
 
     public void leggTilBestilling(Bestilling bestilling) throws InterruptedException {
         ko.put(bestilling);
-        String melding = " Kunde " + bestilling.getKundeId() + 
+        String melding = "[Bestillingskø] Kunde " + bestilling.getKundeId() + 
                          " har bestilt " + bestilling.getMåltid();
         App.appendLog(melding);
         System.out.println(melding);
@@ -28,7 +28,7 @@ public class Bestillingskø {
 
     public Bestilling hentBestilling() throws InterruptedException {
         Bestilling bestilling = ko.take();
-        String melding = " Hentet bestilling for kunde " + bestilling.getKundeId() + 
+        String melding = "[Bestillingskø] Hentet bestilling for kunde " + bestilling.getKundeId() + 
                          ": " + bestilling.getMåltid();
         App.appendLog(melding);
         System.out.println(melding);
@@ -38,12 +38,12 @@ public class Bestillingskø {
     public Bestilling forsokHentBestillingMedTimeout(int timeoutSekunder) throws InterruptedException {
         Bestilling bestilling = ko.poll(timeoutSekunder, TimeUnit.SECONDS);
         if (bestilling != null) {
-            String melding = "⏳ Hentet (timeout) bestilling for kunde " + bestilling.getKundeId() + 
+            String melding = "[Bestillingskø]⏳ Hentet (timeout) bestilling for kunde " + bestilling.getKundeId() + 
                              ": " + bestilling.getMåltid();
             App.appendLog(melding);
             System.out.println(melding);
         } else {
-            App.appendLog(" Ingen bestillinger tilgjengelig (timeout)");
+            App.appendLog("[Bestillingskø] Ingen bestillinger tilgjengelig (timeout)");
             System.out.println("[Bestillingskø] Ingen bestilling tilgjengelig (timeout)...");
         }
         return bestilling;
