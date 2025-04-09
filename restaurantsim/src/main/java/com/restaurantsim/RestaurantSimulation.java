@@ -93,8 +93,16 @@ public class RestaurantSimulation {
     public void stopSimulering() {
         if (kjører && !pausert) {
             kjører = false;
+<<<<<<< Updated upstream
             pausert = true;
             kokker.forEach(kokker -> kokker.interrupt());
+=======
+            pausert = false;
+            
+            for (Thread t : kokketråder) {
+                t.interrupt();
+            }
+>>>>>>> Stashed changes
             kunder.forEach(kunde -> kunde.interrupt());
             App.appendLog("Simuleringen stoppet");
         }

@@ -104,7 +104,11 @@ public class App extends Application {
         // --- Start simulering ---
         simulation = new RestaurantSimulation(5);
         LoggerUtil.tømLogg(); // Tømmer loggfilen før ny simulering
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
         // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
         Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PIZZA, simulation);

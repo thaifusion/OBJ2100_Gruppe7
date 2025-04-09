@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 2025-04-07T19:58:40.090956500 - Kunde 1 la inn bestilling på BURGER
 2025-04-07T19:58:40.097932900 - [Kokk Eivind Hellstrøm] Tilbereder BURGER for kunde 1
 2025-04-07T19:58:41.352058600 - Kunde 2 la inn bestilling på BURGER
@@ -127,3 +128,11 @@
 2025-04-07T20:45:59.972683600 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PIZZA]
 2025-04-07T20:46:02.577094100 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: PASTA]
 2025-04-07T20:46:05.038169800 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, Måltid: SALAT]
+=======
+2025-04-09T10:30:39.945101500 - Kunde 1 la inn bestilling pÃ¥ SALAT
+2025-04-09T10:30:39.970807900 - [Kokk Arne Brimi] Tilbereder SALAT for kunde 1
+2025-04-09T10:30:42.547455600 - Kunde 2 la inn bestilling pÃ¥ PIZZA
+2025-04-09T10:30:42.548973200 - [Kokk Lars Monsen] Tilbereder PIZZA for kunde 2
+2025-04-09T10:30:44.229007100 - Kunde 3 la inn bestilling pÃ¥ SALAT
+2025-04-09T10:30:44.232001200 - [Kokk Gordon Ramsay] Tilbereder SALAT for kunde 3
+>>>>>>> Stashed changes
