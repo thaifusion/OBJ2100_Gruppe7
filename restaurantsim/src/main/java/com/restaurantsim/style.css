@@ -1,66 +1,70 @@
-/* Global stil */
+
 .root {
-    -fx-background-color: #2e2e2e;
-    background-color: #2e2e2e;
+    background-color: #2c2c2c; /* Mørk bakgrunnsfarge */
+    -fx-background-color: #2c2c2c;
+    font-family: "Segoe UI", sans-serif; 
     -fx-font-family: "Segoe UI", sans-serif;
     font-family: "Segoe UI", sans-serif;
 }
 
-/* Tittel */
+/* === LABELS === */
 .label {
-    -fx-text-fill: #f0f0f0;
+    -fx-text-fill: white;
+    font-size: 14px;   
     -fx-font-size: 14px;
     font-size: 14px;
 }
 
-.label.title {
-    -fx-font-size: 24px;
-    font-size: 24px;
+#scoreboardLabel {
+    font-size: 16px; 
+    -fx-font-size: 16px;
+    font-weight: bold; 
+     
     -fx-font-weight: bold;
-    font-weight: bold;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #fcefa4; 
 }
 
-/* Knapper */
+/* === KNAPPER === */
 .button {
-    -fx-background-color: #3b3b3b;
-    background-color: #3b3b3b;
+    background-color: #444; 
+    -fx-background-color: #444;
     -fx-text-fill: white;
-    -fx-font-weight: bold;
-    font-weight: bold;
-    -fx-background-radius: 8px;
-    -fx-padding: 6px 12px;
-    padding: 6px 12px;
+    -fx-font-size: 14px;
+    font-size: 14px;
+    -fx-background-radius: 5px;
+    cursor: pointer; 
+    -fx-cursor: hand;
 }
 
 .button:hover {
-    -fx-background-color: #505050;
-    background-color: #505050;
+    background-color: #666; 
+    -fx-background-color: #666;
 }
 
-/* Aktive kunder og bestillingsinfo */
-.list-view, .text-area {
-    -fx-background-color: #ffffff;
-    background-color: #ffffff;
-    -fx-text-fill: #000000;
-    -fx-border-color: #555555;
-    border-color: #555555;
-    -fx-border-radius: 6px;
-    border-radius: 6px;
-    -fx-background-radius: 6px;
+.button:disabled {
+    opacity: 0.5; 
+    -fx-opacity: 0.5;
+}
+
+/* === LISTVIEW OG TEXTAREA === */
+.list-view,
+.text-area {
+    -fx-control-inner-background: #f9f9f9;
+    font-family: "Consolas", monospace; 
     -fx-font-family: "Consolas", monospace;
-    font-family: "Consolas", monospace;
+    font-size: 13px; 
     -fx-font-size: 13px;
-    font-size: 13px;
+    border-color: #ccc; 
+    -fx-border-color: #ccc;
+    border-radius: 3px; 
+    -fx-border-radius: 3px;
 }
 
-/* Scoreboard */
-#scoreboard {
-    -fx-font-size: 16px;
-    font-size: 16px;
-    -fx-text-fill: #87cefa; /* Lys blå */
+/* === STATUSLABEL === */
+#statusLabel {
+    -fx-text-fill: #ffa726; /* Oransje for status */
+    -fx-font-size: 14px;
+    font-size: 14px;
     -fx-font-weight: bold;
     font-weight: bold;
-    -fx-padding: 5px;
-    padding: 5px;
 }

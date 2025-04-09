@@ -51,8 +51,8 @@ public class App extends Application {
 
         HBox scoreboardBox = new HBox(scoreboardLabel);
         scoreboardBox.setAlignment(Pos.CENTER);
-        scoreboardBox.setPadding(new Insets(10, 0, 10, 0));
-        scoreboardLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        scoreboardLabel.setId("scoreboardLabel");
+        scoreboardBox.setPadding(new Insets(20, 0, 20, 0));
 
         VBox topPane = new VBox(tittelBox, buttonBox, loggBox, scoreboardBox);
         root.setTop(topPane);
@@ -69,6 +69,7 @@ public class App extends Application {
         VBox rightPane = new VBox(10);
         Label ordreLabel = new Label("Bestillingsinfo:");
         bestillingInfoArea.setEditable(false);
+        bestillingInfoArea.setPrefSize(400, 200);
         rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
         rightPane.setPadding(new Insets(10));
         root.setRight(rightPane);
@@ -76,11 +77,19 @@ public class App extends Application {
         // Bunn
         VBox bottomPane = new VBox(5);
         Label statusLabel = new Label("Status: Venter på bestillinger...");
+        statusLabel.setId("statusLabel");
+
         logArea.setEditable(false);
-        logArea.setStyle("-fx-control-inner-background: #f9f9f9;");
+        logArea.setWrapText(true); // Valgfritt: fjerner behov for horisontal scrolling
+        logArea.setPrefHeight(150); // Gjør den høyere
+        logArea.setPrefWidth(800);  // Gjør den bredere (juster etter ønske)
+
         bottomPane.getChildren().addAll(statusLabel, logArea);
         bottomPane.setPadding(new Insets(10));
-        root.setBottom(bottomPane);
+
+        HBox bottomWrapper = new HBox(bottomPane);
+        bottomWrapper.setAlignment(Pos.CENTER);
+        root.setBottom(bottomWrapper);
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
