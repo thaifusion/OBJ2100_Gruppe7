@@ -22,7 +22,7 @@ public class Bestillingskø {
         ko.put(bestilling);
         String melding = "[Bestillingskø] Kunde " + bestilling.getKundeId() + 
                          " har bestilt " + bestilling.getMåltid();
-        App.appendLog(melding);
+        // App.appendLog(melding);
         System.out.println(melding);
     }
 
@@ -30,7 +30,7 @@ public class Bestillingskø {
         Bestilling bestilling = ko.take();
         String melding = "[Bestillingskø] Hentet bestilling for kunde " + bestilling.getKundeId() + 
                          ": " + bestilling.getMåltid();
-        App.appendLog(melding);
+        // App.appendLog(melding);
         System.out.println(melding);
         return bestilling;
     }
@@ -40,10 +40,10 @@ public class Bestillingskø {
         if (bestilling != null) {
             String melding = "[Bestillingskø]⏳ Hentet (timeout) bestilling for kunde " + bestilling.getKundeId() + 
                              ": " + bestilling.getMåltid();
-            App.appendLog(melding);
+            // App.appendLog(melding);
             System.out.println(melding);
         } else {
-            App.appendLog("[Bestillingskø] Ingen bestillinger tilgjengelig (timeout)");
+           //  App.appendLog("[Bestillingskø] Ingen bestillinger tilgjengelig (timeout)");
             System.out.println("[Bestillingskø] Ingen bestilling tilgjengelig (timeout)...");
         }
         return bestilling;

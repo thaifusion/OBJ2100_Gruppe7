@@ -8,6 +8,7 @@ public class Kokk implements Runnable {
     private final Måltider spesialisering;
     private final Hentekø hentekø;
     private final RestaurantSimulation simulation;
+    private volatile boolean erOpptatt = false;
 
     private volatile boolean aktiv = true;
 
@@ -28,19 +29,31 @@ public class Kokk implements Runnable {
         while (aktiv) {
             try {
                 Bestilling best = bestillingsKø.hentBestilling();
+
+                // Hvis dette er allround-kokk, sjekk om en spesialkokk kan ta bestillingen
+                if (spesialisering == null) {
+                    if (simulation.finnesLedigSpesialist(best.getMåltid())) {
+                        bestillingsKø.leggTilBestilling(best);
+                    Thread.sleep(200); // Gir spesialkokker en liten fordel
+                    continue;
+                    }
+                }    
+
+                // Hvis det er riktig kokk for retten
                 if (spesialisering == null || best.getMåltid() == spesialisering) { 
+                    erOpptatt = true;
     
                 // ⏳ Under arbeid
                 String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
                 LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(underArbeid);
     
-                Thread.sleep(10000); // Simuler tilberedning
-    
+                Thread.sleep(best.getMåltid().getTilberedningstid());
+
                 // ✅ Ferdig
                 String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
-                App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(ferdig);
                 hentekø.leggTilHenteKø(best);
     
@@ -48,7 +61,7 @@ public class Kokk implements Runnable {
                 long ventetid = nåTid - best.getBestillingstid();
     
                 // 😊 eller 😠 basert på ventetid
-                if (ventetid <= 12000) {
+                if (ventetid <= 16000) {
                     App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
                     LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
                     App.simulation.incrementHappy(); 
@@ -77,5 +90,9 @@ public class Kokk implements Runnable {
 
     public String getKokkNavn() {
         return kokkNavn;
+    }
+
+    public boolean erLedig() {
+        return !erOpptatt;
     }
 }

@@ -14,12 +14,12 @@ public class Hentekø {
 
     public void leggTilHenteKø(Bestilling bestilling) throws InterruptedException {
         henteKø.put(bestilling);
-        App.appendLog("[Hentekø] Klar for henting: " + bestilling);
+        // App.appendLog("[Hentekø] Klar for henting: " + bestilling);
     }
 
     public Bestilling kundeHentBestilling() throws InterruptedException {
         Bestilling bestilling = henteKø.take();
-        App.appendLog("[Hentekø] Hentet bestilling: " + bestilling);
+        // App.appendLog("[Hentekø] Hentet bestilling: " + bestilling);
         return bestilling;
     }
 }

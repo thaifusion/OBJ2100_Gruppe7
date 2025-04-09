@@ -116,6 +116,7 @@ public class App extends Application {
         Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         Kokk kokk4 = new Kokk("Lars Monsen", Måltider.BURGER, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         Kokk kokk5 = new Kokk("Gordon Ramsay", Måltider.BIFF, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk allrounder = new Kokk("Allrounder-Kokk", null, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
 
 
@@ -127,6 +128,7 @@ public class App extends Application {
                 simulation.startKokk(kokk3);
                 simulation.startKokk(kokk4);
                 simulation.startKokk(kokk5);
+                simulation.startKokk(allrounder);
 
                 startButton.setDisable(true);
                 pauseButton.setDisable(false);
