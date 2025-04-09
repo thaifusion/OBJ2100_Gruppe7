@@ -15,4 +15,12 @@ public class LoggerUtil {
             System.err.println("Feil ved skriving til loggfil: " + e.getMessage());
         }
     }
+
+    public static void tømLogg() {
+        try (FileWriter writer = new FileWriter(FILNAVN, false)) {
+            writer.write(""); // Tømmer innholdet i filen
+        } catch (IOException e) {
+            System.err.println("Feil ved tømming av loggfil: " + e.getMessage());
+        }
+    }
 }

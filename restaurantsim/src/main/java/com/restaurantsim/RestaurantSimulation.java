@@ -13,6 +13,7 @@ public class RestaurantSimulation {
     private int angryCount = 0;
 
     // F.eks. lag en liste for å holde rede på kokker
+    private final List<Thread> kokketråder = new ArrayList<>();
     private final List<Kokk> kokker = new ArrayList<>();
     private final List<Kunde> kunder = new ArrayList<>();
     // Alternativt en HashMap for spesialisering (valgfritt)
@@ -32,7 +33,9 @@ public class RestaurantSimulation {
      */
     public void startKokk(Kokk kokk) {
         kokker.add(kokk);
-        new Thread(kokk, kokk.getKokkNavn()).start();
+        Thread t = new Thread(kokk, kokk.getKokkNavn());
+        kokketråder.add(t);
+        t.start();
     }
 
     public Bestillingskø getBestillingsKø() {
@@ -105,7 +108,7 @@ public class RestaurantSimulation {
         return pausert;
     }
 
-    private void sjekkPause() throws InterruptedException {
+    public void sjekkPause() throws InterruptedException {
         synchronized (pauseLock) {
             while (pausert) {
                 pauseLock.wait();

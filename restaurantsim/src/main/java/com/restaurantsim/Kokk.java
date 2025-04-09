@@ -9,6 +9,8 @@ public class Kokk implements Runnable {
     private Måltider spesialisering;
     private final RestaurantSimulation simulation;
 
+    final int TÅLEGRENSE = 15000; // 15 sekunder
+
     public Kokk(String kokkNavn, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kokkNavn = kokkNavn;
         this.bestillingsKø = bestillingsKø;
@@ -24,45 +26,50 @@ public class Kokk implements Runnable {
         this.simulation = simulation;
     }
            
-@Override
+    @Override
 public void run() {
     while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
         try {
-            // Hent neste bestilling (blokkerer om køen er tom).
-            Bestilling best = bestillingsKø.hentBestilling();
+            simulation.sjekkPause(); // Sjekk om simuleringen er pausert
+            Bestilling best = bestillingsKø.forsokHentBestillingMedTimeout(1); // vent maks 1 sek
 
-            // Logg når kokken starter
+            if (best == null) {
+                continue; // Ingenting i køen akkurat nå – prøv igjen
+            }
+
+            // Hvis kokken har en spesialisering og den ikke matcher, hopp over
+            if (spesialisering != null && best.getMåltid() != spesialisering) {
+                // Legg tilbake i køen for andre kokker (bare hvis du absolutt vil)
+                bestillingsKø.leggTilBestilling(best); // ← eller bare ikke gjør noe, den ligger jo fortsatt der
+                Thread.sleep(500); // Kort pause før ny sjekk
+                continue;
+            }
+
+            // --- Kokken kan lage retten ---
             App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
             LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-
             App.appendBestillingsinfo(kokkNavn + " → lager " + best.getMåltid() + " for kunde " + best.getKundeId());
 
-            // Valgfritt: behold eller fjern denne
-            //System.out.println(kokkNavn + " tilbereder: " + best);
-            
-            // Simuler tilberedningstid (10 sek).
-            Thread.sleep(10000);
+            Thread.sleep(best.getMåltid().getTilberedningstid()); // Tilberedningstid
 
-            // Ferdig melding
             App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
             App.appendBestillingsinfo(kokkNavn + " ✓ ferdig for kunde " + best.getKundeId());
             henteKø.leggTilHenteKø(best);
 
-            // Regn ut ventetid
             long nåTid = System.currentTimeMillis();
-            long ventetid = nåTid - best.getBestillingstid(); // i millisekunder
+            long ventetid = nåTid - best.getBestillingstid();
 
-            // Bestem happy vs. angry (grense: 12 sekunder = 12000 ms)
-            if (ventetid <= 12000) {
+            if (ventetid <= TÅLEGRENSE) {
                 App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementHappy(); // 
+                App.simulation.incrementHappy();
             } else {
                 App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementAngry(); 
+                App.simulation.incrementAngry();
             }
 
         } catch (InterruptedException e) {
             App.appendLog("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
+            Thread.currentThread().interrupt(); // Avbryt tråden
             break;
         }
     }
@@ -79,6 +86,4 @@ public void run() {
     public void interrupt() {
         Thread.currentThread().interrupt();
     }
-
-
 }
