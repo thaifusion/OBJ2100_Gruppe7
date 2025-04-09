@@ -9,8 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -79,7 +84,7 @@ public class App extends Application {
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();
