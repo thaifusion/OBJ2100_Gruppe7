@@ -79,7 +79,7 @@ public class RestaurantSimulation {
                     new Thread(kunde, "Kunde-" + kundeId).start();
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;
-                    Thread.sleep(1000 + random.nextInt(2000));
+                    Thread.sleep(1000 + random.nextInt(5000));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;

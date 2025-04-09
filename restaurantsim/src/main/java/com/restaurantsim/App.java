@@ -119,6 +119,7 @@ public class App extends Application {
             startButton.setDisable(false);
             pauseButton.setDisable(true);
             stoppButton.setDisable(true);
+            startButton.setText("Fortsett");
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
         });
