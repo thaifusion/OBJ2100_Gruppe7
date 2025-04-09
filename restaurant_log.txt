@@ -251,3 +251,144 @@
 2025-04-06T21:30:13.100341700 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, M�ltid: BURGER]
 2025-04-06T21:30:14.728617800 - Kunde 4 mottok sin bestilling: Bestilling [Kundenummer 4, M�ltid: PIZZA]
 2025-04-06T21:30:16.774712400 - Kunde 5 mottok sin bestilling: Bestilling [Kundenummer 5, M�ltid: BURGER]
+2025-04-09T14:41:42.986095200 - Kunde 1 la inn bestilling på SALAT
+2025-04-09T14:41:42.993305500 - [Kokk Jamie Oliver] Tilbereder SALAT for kunde 1
+2025-04-09T14:41:45.114230 - Kunde 2 la inn bestilling på BURGER
+2025-04-09T14:41:45.117146400 - [Kokk Eivind Hellstrøm] Tilbereder BURGER for kunde 2
+2025-04-09T14:41:46.294238200 - Kunde 3 la inn bestilling på BURGER
+2025-04-09T14:41:46.295237500 - [Kokk Lars Monsen] Tilbereder BURGER for kunde 3
+2025-04-09T14:41:48.686904200 - Kunde 4 la inn bestilling på PASTA
+2025-04-09T14:41:48.689900100 - [Kokk Arne Brimi] Tilbereder PASTA for kunde 4
+2025-04-09T14:41:50.546589 - Kunde 5 la inn bestilling på PIZZA
+2025-04-09T14:41:50.549521300 - [Kokk Gordon Ramsay] Tilbereder PIZZA for kunde 5
+2025-04-09T14:41:52.298433300 - Kunde 6 la inn bestilling på PASTA
+2025-04-09T14:41:52.997189300 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: SALAT]
+2025-04-09T14:41:52.999189400 - Kunde 1 la inn bestilling på SALAT
+2025-04-09T14:41:53.004710700 - [Kokk Jamie Oliver] Tilbereder PASTA for kunde 6
+2025-04-09T14:41:54.128071600 - Kunde 7 la inn bestilling på SALAT
+2025-04-09T14:41:55.123201500 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: BURGER]
+2025-04-09T14:41:55.126213300 - [Kokk Eivind Hellstrøm] Tilbereder SALAT for kunde 1
+2025-04-09T14:41:55.127208300 - Kunde 2 la inn bestilling på BURGER
+2025-04-09T14:41:55.980969600 - Kunde 8 la inn bestilling på BURGER
+2025-04-09T14:41:56.296555900 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, Måltid: BURGER]
+2025-04-09T14:41:56.296555900 - [Kokk Lars Monsen] Tilbereder SALAT for kunde 7
+2025-04-09T14:41:56.296555900 - Kunde 3 la inn bestilling på BURGER
+2025-04-09T14:41:57.298866600 - Kunde 9 la inn bestilling på BURGER
+2025-04-09T14:41:58.506818300 - Kunde 10 la inn bestilling på PASTA
+2025-04-09T14:41:58.690926600 - Kunde 4 mottok sin bestilling: Bestilling [Kundenummer 4, Måltid: PASTA]
+2025-04-09T14:41:58.691932300 - [Kokk Arne Brimi] Tilbereder BURGER for kunde 2
+2025-04-09T14:41:58.691932300 - Kunde 4 la inn bestilling på PASTA
+2025-04-09T14:42:00.402219900 - Kunde 11 la inn bestilling på BURGER
+2025-04-09T14:42:00.552547600 - Kunde 5 mottok sin bestilling: Bestilling [Kundenummer 5, Måltid: PIZZA]
+2025-04-09T14:42:00.553558100 - [Kokk Gordon Ramsay] Tilbereder BURGER for kunde 8
+2025-04-09T14:42:00.554560500 - Kunde 5 la inn bestilling på PIZZA
+2025-04-09T14:42:02.774976800 - Kunde 12 la inn bestilling på SALAT
+2025-04-09T14:42:03.007899400 - Kunde 6 mottok sin bestilling: Bestilling [Kundenummer 6, Måltid: PASTA]
+2025-04-09T14:42:03.008891800 - Kunde 6 la inn bestilling på PASTA
+2025-04-09T14:42:03.008891800 - [Kokk Jamie Oliver] Tilbereder BURGER for kunde 3
+2025-04-09T14:48:32.124152400 - Kunde 1 la inn bestilling på BURGER
+2025-04-09T14:48:32.136166900 - [Kokk Eivind Hellstrøm] Tilbereder BURGER for kunde 1
+2025-04-09T14:48:35.059195 - Kunde 2 la inn bestilling på PIZZA
+2025-04-09T14:48:35.061651500 - [Kokk Jamie Oliver] Tilbereder PIZZA for kunde 2
+2025-04-09T14:48:37.856301 - Kunde 3 la inn bestilling på SALAT
+2025-04-09T14:48:37.858790600 - [Kokk Lars Monsen] Tilbereder SALAT for kunde 3
+2025-04-09T14:48:40.057005300 - Kunde 4 la inn bestilling på PASTA
+2025-04-09T14:48:40.059939600 - [Kokk Arne Brimi] Tilbereder PASTA for kunde 4
+2025-04-09T14:48:42.143129100 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: BURGER]
+2025-04-09T14:48:42.145155200 - Kunde 1 la inn bestilling på BURGER
+2025-04-09T14:48:42.147140 - [Kokk Gordon Ramsay] Tilbereder BURGER for kunde 1
+2025-04-09T14:48:42.738396700 - Kunde 5 la inn bestilling på SALAT
+2025-04-09T14:48:42.741397800 - [Kokk Eivind Hellstrøm] Tilbereder SALAT for kunde 5
+2025-04-09T14:48:43.798961200 - Kunde 6 la inn bestilling på BURGER
+2025-04-09T14:48:45.064292300 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: PIZZA]
+2025-04-09T14:48:47.862016300 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, Måltid: SALAT]
+2025-04-09T14:48:50.063134 - Kunde 4 mottok sin bestilling: Bestilling [Kundenummer 4, Måltid: PASTA]
+2025-04-09T14:48:52.151253800 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: BURGER]
+2025-04-09T14:48:52.743252600 - Kunde 5 mottok sin bestilling: Bestilling [Kundenummer 5, Måltid: SALAT]
+2025-04-09T14:49:41.686696700 - [Kokk Arne Brimi] Tilbereder BURGER for kunde 6
+2025-04-09T14:49:41.687674700 - Kunde 1 la inn bestilling på PIZZA
+2025-04-09T14:49:41.688675800 - [Kokk Jamie Oliver] Tilbereder PIZZA for kunde 1
+2025-04-09T14:49:43.163480 - Kunde 2 la inn bestilling på BURGER
+2025-04-09T14:49:43.164476700 - [Kokk Lars Monsen] Tilbereder BURGER for kunde 2
+2025-04-09T14:49:51.693856800 - Kunde 6 mottok sin bestilling: Bestilling [Kundenummer 6, Måltid: BURGER]
+2025-04-09T14:49:51.693856800 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PIZZA]
+2025-04-09T14:49:53.175199100 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: BURGER]
+2025-04-09T14:50:36.655276600 - Kunde 1 la inn bestilling på PASTA
+2025-04-09T14:50:36.678768500 - [Kokk Eivind Hellstrøm] Tilbereder PASTA for kunde 1
+2025-04-09T14:50:39.429248500 - Kunde 2 la inn bestilling på PASTA
+2025-04-09T14:50:39.431240500 - [Kokk Gordon Ramsay] Tilbereder PASTA for kunde 2
+2025-04-09T14:50:41.849136300 - Kunde 3 la inn bestilling på SALAT
+2025-04-09T14:50:41.850133300 - [Kokk Arne Brimi] Tilbereder SALAT for kunde 3
+2025-04-09T14:50:43.006108400 - Kunde 4 la inn bestilling på PIZZA
+2025-04-09T14:50:43.008117700 - [Kokk Lars Monsen] Tilbereder PIZZA for kunde 4
+2025-04-09T14:50:44.502425800 - Kunde 5 la inn bestilling på PASTA
+2025-04-09T14:50:44.504444900 - [Kokk Jamie Oliver] Tilbereder PASTA for kunde 5
+2025-04-09T14:50:46.378149900 - Kunde 6 la inn bestilling på SALAT
+2025-04-09T14:50:46.685902400 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PASTA]
+2025-04-09T14:50:46.689450100 - Kunde 1 la inn bestilling på PASTA
+2025-04-09T14:50:46.703020100 - [Kokk Eivind Hellstrøm] Tilbereder SALAT for kunde 6
+2025-04-09T14:50:47.403988600 - Kunde 7 la inn bestilling på PIZZA
+2025-04-09T14:50:49.434016700 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: PASTA]
+2025-04-09T14:50:49.434016700 - [Kokk Gordon Ramsay] Tilbereder PASTA for kunde 1
+2025-04-09T14:50:49.435028 - Kunde 2 la inn bestilling på PASTA
+2025-04-09T14:50:49.832400800 - Kunde 8 la inn bestilling på SALAT
+2025-04-09T14:50:51.852298200 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, Måltid: SALAT]
+2025-04-09T14:50:51.852826400 - [Kokk Arne Brimi] Tilbereder PIZZA for kunde 7
+2025-04-09T14:50:51.853830200 - Kunde 3 la inn bestilling på SALAT
+2025-04-09T14:50:52.504590 - Kunde 9 la inn bestilling på PIZZA
+2025-04-09T14:50:53.010495600 - Kunde 4 mottok sin bestilling: Bestilling [Kundenummer 4, Måltid: PIZZA]
+2025-04-09T14:50:53.011495300 - [Kokk Lars Monsen] Tilbereder PASTA for kunde 2
+2025-04-09T14:50:53.012509400 - Kunde 4 la inn bestilling på PIZZA
+2025-04-09T14:50:54.508384400 - Kunde 5 mottok sin bestilling: Bestilling [Kundenummer 5, Måltid: PASTA]
+2025-04-09T14:50:54.508384400 - [Kokk Jamie Oliver] Tilbereder SALAT for kunde 8
+2025-04-09T14:50:54.510382700 - Kunde 5 la inn bestilling på PASTA
+2025-04-09T14:50:55.253978200 - Kunde 10 la inn bestilling på PASTA
+2025-04-09T14:50:56.547641200 - Kunde 11 la inn bestilling på SALAT
+2025-04-09T14:50:56.705641500 - Kunde 6 mottok sin bestilling: Bestilling [Kundenummer 6, Måltid: SALAT]
+2025-04-09T14:50:56.706637400 - Kunde 6 la inn bestilling på SALAT
+2025-04-09T14:50:56.706637400 - [Kokk Eivind Hellstrøm] Tilbereder SALAT for kunde 3
+2025-04-09T14:50:58.606594500 - Kunde 12 la inn bestilling på PASTA
+2025-04-09T14:50:59.437873300 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PASTA]
+2025-04-09T14:50:59.438867600 - [Kokk Gordon Ramsay] Tilbereder PIZZA for kunde 9
+2025-04-09T14:50:59.439864100 - Kunde 1 la inn bestilling på PASTA
+2025-04-09T14:50:59.854317600 - Kunde 13 la inn bestilling på PASTA
+2025-04-09T14:51:01.855297700 - Kunde 7 mottok sin bestilling: Bestilling [Kundenummer 7, Måltid: PIZZA]
+2025-04-09T14:51:03.013710800 - Kunde 2 mottok sin bestilling: Bestilling [Kundenummer 2, Måltid: PASTA]
+2025-04-09T14:51:04.511529700 - Kunde 8 mottok sin bestilling: Bestilling [Kundenummer 8, Måltid: SALAT]
+2025-04-09T14:51:06.708869400 - Kunde 3 mottok sin bestilling: Bestilling [Kundenummer 3, Måltid: SALAT]
+2025-04-09T14:51:09.442583700 - Kunde 9 mottok sin bestilling: Bestilling [Kundenummer 9, Måltid: PIZZA]
+2025-04-09T14:51:23.663252900 - [Kokk Eivind Hellstrøm] Tilbereder PIZZA for kunde 4
+2025-04-09T14:51:23.663252900 - [Kokk Jamie Oliver] Tilbereder PASTA for kunde 5
+2025-04-09T14:51:23.664251800 - [Kokk Lars Monsen] Tilbereder PASTA for kunde 10
+2025-04-09T14:51:23.664251800 - Kunde 1 la inn bestilling på BURGER
+2025-04-09T14:51:23.665265400 - [Kokk Arne Brimi] Tilbereder SALAT for kunde 6
+2025-04-09T14:51:23.665265400 - [Kokk Gordon Ramsay] Tilbereder SALAT for kunde 11
+2025-04-09T14:51:24.759799 - Kunde 2 la inn bestilling på PASTA
+2025-04-09T14:51:27.670082800 - Kunde 3 la inn bestilling på PASTA
+2025-04-09T14:51:29.249198500 - Kunde 4 la inn bestilling på PASTA
+2025-04-09T14:51:30.470814600 - Kunde 5 la inn bestilling på SALAT
+2025-04-09T14:51:32.193611900 - Kunde 6 la inn bestilling på BURGER
+2025-04-09T14:51:33.664022 - Kunde 4 mottok sin bestilling: Bestilling [Kundenummer 4, Måltid: PIZZA]
+2025-04-09T14:51:33.666037500 - [Kokk Eivind Hellstrøm] Tilbereder PASTA for kunde 12
+2025-04-09T14:51:33.666037500 - Kunde 5 mottok sin bestilling: Bestilling [Kundenummer 5, Måltid: PASTA]
+2025-04-09T14:51:33.667035 - Kunde 4 la inn bestilling på PIZZA
+2025-04-09T14:51:33.667035 - Kunde 10 mottok sin bestilling: Bestilling [Kundenummer 10, Måltid: PASTA]
+2025-04-09T14:51:33.668036700 - Kunde 5 la inn bestilling på PASTA
+2025-04-09T14:51:33.668036700 - Kunde 11 mottok sin bestilling: Bestilling [Kundenummer 11, Måltid: SALAT]
+2025-04-09T14:51:33.669034600 - [Kokk Jamie Oliver] Tilbereder PASTA for kunde 1
+2025-04-09T14:51:33.669034600 - Kunde 6 mottok sin bestilling: Bestilling [Kundenummer 6, Måltid: SALAT]
+2025-04-09T14:51:33.669034600 - Kunde 10 la inn bestilling på PASTA
+2025-04-09T14:51:33.669034600 - [Kokk Arne Brimi] Tilbereder PASTA for kunde 2
+2025-04-09T14:51:33.670038 - Kunde 11 la inn bestilling på SALAT
+2025-04-09T14:51:33.670038 - Kunde 6 la inn bestilling på SALAT
+2025-04-09T14:51:33.670038 - [Kokk Lars Monsen] Tilbereder PASTA for kunde 13
+2025-04-09T14:51:33.671551400 - [Kokk Gordon Ramsay] Tilbereder BURGER for kunde 1
+2025-04-09T14:51:34.968362500 - Kunde 7 la inn bestilling på BURGER
+2025-04-09T14:51:36.127518700 - Kunde 8 la inn bestilling på PASTA
+2025-04-09T14:51:38.007520200 - Kunde 9 la inn bestilling på PASTA
+2025-04-09T14:51:39.254386200 - Kunde 10 la inn bestilling på BURGER
+2025-04-09T14:51:43.668672900 - Kunde 12 mottok sin bestilling: Bestilling [Kundenummer 12, Måltid: PASTA]
+2025-04-09T14:51:43.670671100 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PASTA]
+2025-04-09T14:55:21.356043400 - Kunde 1 la inn bestilling på PIZZA
+2025-04-09T14:55:21.367611900 - [Kokk Jamie Oliver] Tilbereder PIZZA for kunde 1
+2025-04-09T14:55:31.373795600 - Kunde 1 mottok sin bestilling: Bestilling [Kundenummer 1, Måltid: PIZZA]

@@ -53,8 +53,7 @@ public class App extends Application {
 
         HBox scoreboardBox = new HBox(scoreboardLabel);
         scoreboardBox.setAlignment(Pos.CENTER);
-        scoreboardLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        scoreboardLabel.setId("scoreboard");
+        scoreboardLabel.setId("scoreboardLabel");
         scoreboardBox.setPadding(new Insets(20, 0, 20, 0));
 
         topPane.getChildren().addAll(tittelBox, buttonBox, loggButtonBox, scoreboardBox);
@@ -71,7 +70,7 @@ public class App extends Application {
         VBox rightPane = new VBox(10);
         Label ordreLabel = new Label("Bestillingsinfo:");
         bestillingInfoArea.setEditable(false);
-        bestillingInfoArea.setPrefSize(300, 200);
+        bestillingInfoArea.setPrefSize(400, 200);
         rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
 
         // --- Kombiner venstre og høyre panel i midten ---
@@ -83,11 +82,16 @@ public class App extends Application {
 
         // --- Bunnpanel: statuslinje og loggvisning ---
         VBox bottomPane = new VBox(5);
-        bottomPane.setPadding(new Insets(0, 0, 30, 0)); // Top, Right, Bottom, Left
         Label statusLabel = new Label("Status: Venter på bestillinger...");
+        statusLabel.setId("statusLabel");
+
         logArea.setEditable(false);
-        logArea.setPrefHeight(150);
+        logArea.setWrapText(true); // Valgfritt: fjerner behov for horisontal scrolling
+        logArea.setPrefHeight(150); // Gjør den høyere
+        logArea.setPrefWidth(800);  // Gjør den bredere (juster etter ønske)
+
         bottomPane.getChildren().addAll(statusLabel, logArea);
+        bottomPane.setPadding(new Insets(10));
 
         HBox bottomWrapper = new HBox(bottomPane);
         bottomWrapper.setAlignment(Pos.CENTER);
