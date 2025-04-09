@@ -42,7 +42,7 @@ public class Kunde implements Runnable {
             System.err.println("Kunde #" + kundeId + " avbrutt: " + e.getMessage());
         }
     }
-
+    
     public void interrupt() {
         Thread.currentThread().interrupt();  // Merk: Denne "avbryter" bare nåværende tråd, bør brukes med kontroll
     }
