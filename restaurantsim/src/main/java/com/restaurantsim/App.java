@@ -122,6 +122,7 @@ public class App extends Application {
                 simulation.startKokk(kokk3);
                 simulation.startKokk(kokk4);
                 simulation.startKokk(kokk5);
+                
                 statusLabel.setText("Status: Simulering startet");
                 appendLog("Simulering startet.");
             }   
@@ -131,6 +132,7 @@ public class App extends Application {
             simulation.stopSimulering();
             startButton.setDisable(false);
             stoppButton.setDisable(true);
+            startButton.setText("Fortsett");
             statusLabel.setText("Status: Simulering stoppet");
         });
 
