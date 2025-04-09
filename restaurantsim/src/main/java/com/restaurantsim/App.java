@@ -23,7 +23,8 @@ public class App extends Application {
     private static TextArea logArea = new TextArea();
     private static TextArea bestillingInfoArea = new TextArea();
     private static ObservableList<String> aktiveKunder = FXCollections.observableArrayList();
-    private static Label scoreboardLabel = new Label("Scoreboard: Happy: 0, Angry: 0");
+    private static Label scoreboardLabel = new Label("Scoreboard: 😊 Happy: 0, 😠  Angry: 0");
+    
 
     public static RestaurantSimulation simulation;
 
@@ -33,6 +34,7 @@ public class App extends Application {
 
         // Topp
         Label title = new Label("Restaurant Simulering");
+        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         Button startButton = new Button("Start");
         Button pauseButton = new Button("Pause");
         Button stoppButton = new Button("Stopp");
@@ -40,8 +42,9 @@ public class App extends Application {
         visLoggKnapp.setOnAction(e -> LoggViewer.visLoggVindu());
 
         HBox tittelBox = new HBox(title);
-        tittelBox.setAlignment(Pos.CENTER_LEFT);
+        tittelBox.setAlignment(Pos.CENTER);
         tittelBox.setPadding(new Insets(10));
+        tittelBox.setPrefWidth(Double.MAX_VALUE);
 
         HBox buttonBox = new HBox(10, startButton, pauseButton, stoppButton);
         buttonBox.setAlignment(Pos.CENTER);
@@ -51,8 +54,8 @@ public class App extends Application {
 
         HBox scoreboardBox = new HBox(scoreboardLabel);
         scoreboardBox.setAlignment(Pos.CENTER);
-        scoreboardBox.setPadding(new Insets(10, 0, 10, 0));
-        scoreboardLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        scoreboardLabel.setId("scoreboardLabel");
+        scoreboardBox.setPadding(new Insets(20, 0, 20, 0));
 
         VBox topPane = new VBox(tittelBox, buttonBox, loggBox, scoreboardBox);
         root.setTop(topPane);
@@ -63,28 +66,43 @@ public class App extends Application {
         ListView<String> kunderListView = new ListView<>(aktiveKunder);
         leftPane.getChildren().addAll(kunderLabel, kunderListView);
         leftPane.setPadding(new Insets(10));
-        root.setLeft(leftPane);
 
         // Høyre panel
         VBox rightPane = new VBox(10);
         Label ordreLabel = new Label("Bestillingsinfo:");
         bestillingInfoArea.setEditable(false);
+        bestillingInfoArea.setPrefWidth(400);
+        bestillingInfoArea.setPrefHeight(300);
         rightPane.getChildren().addAll(ordreLabel, bestillingInfoArea);
         rightPane.setPadding(new Insets(10));
-        root.setRight(rightPane);
+
+        // Midtpanel
+        HBox centerPane = new HBox(20, leftPane, rightPane);
+        centerPane.setPadding(new Insets(10));
+        centerPane.setAlignment(Pos.TOP_CENTER);
+        root.setCenter(centerPane);
+
 
         // Bunn
         VBox bottomPane = new VBox(5);
         Label statusLabel = new Label("Status: Venter på bestillinger...");
+        statusLabel.setId("statusLabel");
+
         logArea.setEditable(false);
-        logArea.setStyle("-fx-control-inner-background: #f9f9f9;");
+        logArea.setWrapText(true);
+        logArea.setPrefHeight(200); 
+        logArea.setPrefWidth(800); 
+
         bottomPane.getChildren().addAll(statusLabel, logArea);
         bottomPane.setPadding(new Insets(10));
-        root.setBottom(bottomPane);
+
+        HBox bottomWrapper = new HBox(bottomPane);
+        bottomWrapper.setAlignment(Pos.CENTER);
+        root.setBottom(bottomWrapper);
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();

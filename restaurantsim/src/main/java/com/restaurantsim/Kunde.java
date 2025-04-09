@@ -42,9 +42,10 @@ public class Kunde implements Runnable {
                     if (ferdigBestilling.getKundeId() == kundeId) {
                         App.appendLog("Kunde #" + kundeId + " mottok sin bestilling: " + ferdigBestilling.getMåltid());
                         App.removeKundeFraListe("Kunde " + kundeId + " ønsker " + ønsketMåltid);
+                        
                         break;
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 }
 
                 break; // Ferdig med løkken etter henting
