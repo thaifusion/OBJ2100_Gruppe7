@@ -33,8 +33,8 @@ public class Bestillingskø {
      */
     public void leggTilBestilling(Bestilling bestilling) throws InterruptedException {
         ko.put(bestilling);
-        App.appendLog("[Bestillingskø] La til bestilling: " + bestilling);
-        System.out.println("[Bestillingskø] La til bestilling: " + bestilling);
+        App.appendLog("[Bestillingskø] Ny bestilling: " + bestilling);
+        System.out.println("[Bestillingskø] Ny bestilling: " + bestilling);
     }
 
     /**

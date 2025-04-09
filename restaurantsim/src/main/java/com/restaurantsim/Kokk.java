@@ -34,7 +34,6 @@ public class Kokk implements Runnable {
     
                 // ⏳ Under arbeid
                 String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
-                App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
                 LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(underArbeid);
     
@@ -43,6 +42,7 @@ public class Kokk implements Runnable {
                 // ✅ Ferdig
                 String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
                 App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(ferdig);
                 henteKø.leggTilHenteKø(best);
     
@@ -52,14 +52,17 @@ public class Kokk implements Runnable {
                 // 😊 eller 😠 basert på ventetid
                 if (ventetid <= 12000) {
                     App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
                     App.simulation.incrementHappy(); 
                 } else {
                     App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
                     App.simulation.incrementAngry(); 
                 }
     
             } catch (InterruptedException e) {
                 App.appendLog("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
+                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
                 break;
             }
         }
