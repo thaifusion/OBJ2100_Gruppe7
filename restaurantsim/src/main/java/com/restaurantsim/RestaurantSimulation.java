@@ -30,10 +30,21 @@ public class RestaurantSimulation {
         }
     }
 
-    public void startKokk(Kokk kokk) {
-        kokker.add(kokk);
-        Thread t = new Thread(kokk);
-        t.start();
+    public void pauseSimulering() {
+        if (kjører && !pausert) {
+            pausert = true;
+            App.appendLog("Simuleringen pausert.");
+        }
+    }
+
+    public void fortsettSimulering() {
+        if (kjører && pausert) {
+            pausert = false;
+            synchronized (pauseLock) {
+                pauseLock.notifyAll();
+            }
+            App.appendLog("Simuleringen fortsetter.");
+        }
     }
 
     public void stopSimulering() {
@@ -43,32 +54,51 @@ public class RestaurantSimulation {
 
             // Stop alle kokker
             for (Kokk kokk : kokker) {
-                kokk.stop(); // bruker vår stop-metode
+                kokk.stop();
             }
 
             App.appendLog("Simuleringen stoppet.");
         }
     }
 
+    public void startKokk(Kokk kokk) {
+        kokker.add(kokk);
+        new Thread(kokk, kokk.getKokkNavn()).start();
+    }
+
     public void startKunder() {
         new Thread(() -> {
-            Random rand = new Random();
+            Random random = new Random();
             int kundeId = 1;
             while (kjører) {
                 try {
-                    Måltider måltid = Måltider.values()[rand.nextInt(Måltider.values().length)];
+                    sjekkPause();
+                    Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
                     long bestillingstid = System.currentTimeMillis();
-                    Kunde kunde = new Kunde(kundeId, måltid, bestillingstid, bestillingsKø, hentekø, this);
-                    new Thread(kunde).start();
-                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + måltid);
+                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, hentekø, this);
+                    new Thread(kunde, "Kunde-" + kundeId).start();
+                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;
-                    Thread.sleep(1000 + rand.nextInt(2000));
+                    Thread.sleep(1000 + random.nextInt(2000));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
                 }
             }
         }).start();
+    }
+
+    private void sjekkPause() {
+        synchronized (pauseLock) {
+            while (pausert) {
+                try {
+                    pauseLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }
     }
 
     public boolean kjører() {

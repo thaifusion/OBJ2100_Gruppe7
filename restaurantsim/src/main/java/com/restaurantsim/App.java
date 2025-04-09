@@ -1,5 +1,7 @@
 package com.restaurantsim;
 
+
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -29,6 +31,21 @@ public class App extends Application {
         HBox topPane = new HBox(10);
         Label title = new Label("Restaurant Simulering");
         Button startButton = new Button("Start");
+        Button stoppButton = new Button("Stopp");       
+        buttonBox.getChildren().addAll(startButton, stoppButton);
+
+        Button visLoggKnapp = new Button("Vis logg");
+        HBox loggButtonBox = new HBox(visLoggKnapp);
+        loggButtonBox.setAlignment(Pos.CENTER);
+
+
+        HBox scoreboardBox = new HBox(scoreboardLabel);
+        scoreboardBox.setAlignment(Pos.CENTER);
+        scoreboardLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        scoreboardLabel.setId("scoreboard");
+        scoreboardBox.setPadding(new Insets(20, 0, 20, 0));
+
+        topPane.getChildren().addAll(tittelBox, buttonBox, loggButtonBox, scoreboardBox);
         Button pauseButton = new Button("Pause");
         Button stoppButton = new Button("Stopp");
         topPane.getChildren().addAll(title, startButton, pauseButton, stoppButton);
@@ -64,6 +81,15 @@ public class App extends Application {
 
         // Opprett simulering
         simulation = new RestaurantSimulation(5);
+        
+        // Registrer og start kokker (f.eks. en kokk spesialisert på PIZZA og en som kan alt)
+        Kokk kokk1 = new Kokk("Eivind Hellstrøm", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.PASTA, simulation);
+        Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk3 = new Kokk("Arne Brimi", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.SALAT, simulation);
+        Kokk kokk4 = new Kokk("Lars Monsen", simulation.getBestillingsKø(), simulation.getHentekø(), Måltider.BURGER, simulation);
+        Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+
+        // --- Koble kontrollknapper til handlinger ---
 
         // Registrer kokker
         Kokk kokk1 = new Kokk("Gordon Ramsay", Måltider.PIZZA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
@@ -75,6 +101,8 @@ public class App extends Application {
         startButton.setOnAction(e -> {
             if (!simulation.kjører()) {
                 simulation.startSimulering();
+                startButton.setDisable(true);
+                stoppButton.setDisable(false);
 
                 simulation.startKokk(kokk1);
                 simulation.startKokk(kokk2);
@@ -87,6 +115,7 @@ public class App extends Application {
                 stoppButton.setDisable(false);
                 statusLabel.setText("Status: Simulering startet");
                 appendLog("Simulering startet.");
+            }   
             }
         });
 
@@ -98,13 +127,10 @@ public class App extends Application {
         stoppButton.setOnAction(e -> {
             simulation.stopSimulering();
             startButton.setDisable(false);
-            pauseButton.setDisable(true);
             stoppButton.setDisable(true);
             statusLabel.setText("Status: Simulering stoppet");
-            appendLog("Simulering stoppet.");
         });
 
-        pauseButton.setDisable(true);
         stoppButton.setDisable(true);
 
         new AnimationTimer() {
