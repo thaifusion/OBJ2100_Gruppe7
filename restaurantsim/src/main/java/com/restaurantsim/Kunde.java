@@ -1,7 +1,5 @@
 package com.restaurantsim;
 
- 
-
 public class Kunde implements Runnable {
 
     private final int kundeId;
@@ -11,7 +9,8 @@ public class Kunde implements Runnable {
     private final Hentekø henteKø;
     private final RestaurantSimulation simulation;
 
-    public Kunde(int kundeId, Måltider ønsketMåltid, long bestillingstid, Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
+    public Kunde(int kundeId, Måltider ønsketMåltid, long bestillingstid,
+                 Bestillingskø bestillingsKø, Hentekø henteKø, RestaurantSimulation simulation) {
         this.kundeId = kundeId;
         this.ønsketMåltid = ønsketMåltid;
         this.bestillingsKø = bestillingsKø;
@@ -19,8 +18,6 @@ public class Kunde implements Runnable {
         this.henteKø = henteKø;
         this.simulation = simulation;
     }
-    
-    
 
     @Override
     public void run() {
@@ -29,36 +26,35 @@ public class Kunde implements Runnable {
                 while (simulation.pausert()) {
                     Thread.sleep(500);
                 }
-    
+
                 Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
-    
-                // 📝 Bestilling lagt inn
-                App.appendLog("📝 Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-                LoggerUtil.loggTilFil("Kunde " + kundeId + " la inn bestilling på " + ønsketMåltid);
-    
+
+                String melding = "Kunde #" + kundeId + " ønsker \"" + ønsketMåltid + "\"";
+                App.appendLog(melding);
+                App.appendBestillingsinfo(melding);
+
                 bestillingsKø.leggTilBestilling(best);
-    
-                // ⏳ Kunden venter
-                App.appendLog("⏳ Kunde " + kundeId + " venter på " + ønsketMåltid);
-    
+                App.appendLog("Kunde #" + kundeId + " venter på " + ønsketMåltid);
+
+                // Vente på at kokken legger ferdig bestilling i henteKø
                 while (true) {
                     Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
                     if (ferdigBestilling.getKundeId() == kundeId) {
-                        // ✅ Kunde mottar maten
-                        App.appendLog("✅ Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
-                        LoggerUtil.loggTilFil("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling);
-    
-                        App.removeKundeFraListe("kunde-" + kundeId);
+                        App.appendLog("Kunde #" + kundeId + " mottok sin bestilling: " + ferdigBestilling.getMåltid());
+                        App.removeKundeFraListe("Kunde " + kundeId + " ønsker " + ønsketMåltid);
                         break;
                     }
                     Thread.sleep(1000);
                 }
+
+                break; // Ferdig med løkken etter henting
             }
         } catch (InterruptedException e) {
+            App.appendLog("Kunde #" + kundeId + " ble avbrutt.");
             Thread.currentThread().interrupt();
         }
     }
-    
+
     public void interrupt() {
         Thread.currentThread().interrupt();
     }
