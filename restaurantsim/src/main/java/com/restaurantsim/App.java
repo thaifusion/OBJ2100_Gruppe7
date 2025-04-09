@@ -102,7 +102,7 @@ public class App extends Application {
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/restaurantsim/style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();
