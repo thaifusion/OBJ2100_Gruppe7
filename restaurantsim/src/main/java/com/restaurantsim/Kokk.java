@@ -24,49 +24,45 @@ public class Kokk implements Runnable {
         this.simulation = simulation;
     }
            
-@Override
-public void run() {
-    while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
-        try {
-            // Hent neste bestilling (blokkerer om køen er tom).
-            Bestilling best = bestillingsKø.hentBestilling();
-
-            // Logg når kokken starter
-            App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-            LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-
-            App.appendBestillingsinfo(kokkNavn + " → lager " + best.getMåltid() + " for kunde " + best.getKundeId());
-
-            // Valgfritt: behold eller fjern denne
-            //System.out.println(kokkNavn + " tilbereder: " + best);
-            
-            // Simuler tilberedningstid (10 sek).
-            Thread.sleep(10000);
-
-            // Ferdig melding
-            App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-            App.appendBestillingsinfo(kokkNavn + " ✓ ferdig for kunde " + best.getKundeId());
-            henteKø.leggTilHenteKø(best);
-
-            // Regn ut ventetid
-            long nåTid = System.currentTimeMillis();
-            long ventetid = nåTid - best.getBestillingstid(); // i millisekunder
-
-            // Bestem happy vs. angry (grense: 12 sekunder = 12000 ms)
-            if (ventetid <= 12000) {
-                App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementHappy(); // 
-            } else {
-                App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                App.simulation.incrementAngry(); 
+    @Override 
+    public void run() {
+        while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
+            try {
+                Bestilling best = bestillingsKø.hentBestilling();
+    
+                // ⏳ Under arbeid
+                String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
+                App.appendLog("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+                App.appendBestillingsinfo(underArbeid);
+    
+                Thread.sleep(10000); // Simuler tilberedning
+    
+                // ✅ Ferdig
+                String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
+                App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendBestillingsinfo(ferdig);
+                henteKø.leggTilHenteKø(best);
+    
+                long nåTid = System.currentTimeMillis();
+                long ventetid = nåTid - best.getBestillingstid();
+    
+                // 😊 eller 😠 basert på ventetid
+                if (ventetid <= 12000) {
+                    App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    App.simulation.incrementHappy(); 
+                } else {
+                    App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    App.simulation.incrementAngry(); 
+                }
+    
+            } catch (InterruptedException e) {
+                App.appendLog("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
+                break;
             }
-
-        } catch (InterruptedException e) {
-            App.appendLog("[Kokk " + kokkNavn + "] Avbrutt. Avslutter kokketråden.");
-            break;
         }
     }
-}
+    
 
     public Måltider getSpesialisering() {
         return spesialisering;
