@@ -30,13 +30,6 @@ public class RestaurantSimulation {
         }
     }
 
-    public void pauseSimulering() {
-        if (kjører && !pausert) {
-            pausert = true;
-            App.appendLog("Simuleringen pausert.");
-        }
-    }
-
     public void fortsettSimulering() {
         if (kjører && pausert) {
             pausert = false;
@@ -74,7 +67,7 @@ public class RestaurantSimulation {
                     sjekkPause();
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
                     long bestillingstid = System.currentTimeMillis();
-                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, hentekø, this);
+                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, hentekø, this, random.nextInt(15000 - 5000) + 5000);
                     new Thread(kunde, "Kunde-" + kundeId).start();
                     App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;

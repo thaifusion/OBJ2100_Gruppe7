@@ -36,7 +36,6 @@ public class App extends Application {
         Label title = new Label("Restaurant Simulering");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         Button startButton = new Button("Start");
-        Button pauseButton = new Button("Pause");
         Button stoppButton = new Button("Stopp");
         Button visLoggKnapp = new Button("Vis logg");
         visLoggKnapp.setOnAction(e -> LoggViewer.visLoggVindu());
@@ -46,7 +45,7 @@ public class App extends Application {
         tittelBox.setPadding(new Insets(10));
         tittelBox.setPrefWidth(Double.MAX_VALUE);
 
-        HBox buttonBox = new HBox(10, startButton, pauseButton, stoppButton);
+        HBox buttonBox = new HBox(10, startButton, stoppButton);
         buttonBox.setAlignment(Pos.CENTER);
 
         HBox loggBox = new HBox(visLoggKnapp);
@@ -113,43 +112,32 @@ public class App extends Application {
         // Registrer kokker
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", Måltider.PASTA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation); // allrounder
-        Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
-        Kokk kokk4 = new Kokk("Lars Monsen", Måltider.BURGER, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
-        Kokk kokk5 = new Kokk("Gordon Ramsay", simulation.getBestillingsKø(), simulation.getHentekø(), simulation); // allrounder
+
 
         startButton.setOnAction(e -> {
             if (!simulation.kjører()) {
                 simulation.startSimulering();
                 simulation.startKokk(kokk1);
                 simulation.startKokk(kokk2);
-                simulation.startKokk(kokk3);
-                simulation.startKokk(kokk4);
-                simulation.startKokk(kokk5);
+
 
                 startButton.setDisable(true);
-                pauseButton.setDisable(false);
                 stoppButton.setDisable(false);
                 statusLabel.setText("Status: Simulering startet");
                 appendLog("Simulering startet.");
             }
         });
 
-        pauseButton.setOnAction(e -> {
-            statusLabel.setText("Status: Simulering pausert");
-            appendLog("Simuleringen er midlertidig satt på pause.");
-        });
-
         stoppButton.setOnAction(e -> {
             simulation.stopSimulering();
             startButton.setDisable(false);
-            pauseButton.setDisable(true);
             stoppButton.setDisable(true);
             startButton.setText("Fortsett");
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
         });
 
-        pauseButton.setDisable(true);
+        
         stoppButton.setDisable(true);
 
         new AnimationTimer() {

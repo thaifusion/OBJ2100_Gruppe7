@@ -39,34 +39,24 @@ public class Kokk implements Runnable {
     public void run() {
         while (aktiv) {
             try {
-                Bestilling best = bestillingsKø.hentBestilling();
-    
-                // ⏳ Under arbeid
-                String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
-                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-                App.appendBestillingsinfo(underArbeid);
-    
-                Thread.sleep(10000); // Simuler tilberedning
-    
-                // ✅ Ferdig
-                String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
-                App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-                App.appendBestillingsinfo(ferdig);
-                hentekø.leggTilHenteKø(best);
-    
-                long nåTid = System.currentTimeMillis();
-                long ventetid = nåTid - best.getBestillingstid();
-    
-                // 😊 eller 😠 basert på ventetid
-                if (ventetid <= 12000) {
-                    App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    App.simulation.incrementHappy(); 
+                
+                if (bestillingsKø.erTom()) {
+                    Bestilling best = bestillingsKø.hentBestilling();
+                    // ⏳ Under arbeid
+                    String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
+                    LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+                    App.appendBestillingsinfo(underArbeid);
+        
+                    Thread.sleep(best.getMåltid().getTilberedningstid()); // Simuler tilberedning
+        
+                    // ✅ Ferdig
+                    String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
+                    App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                    LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                    App.appendBestillingsinfo(ferdig);
+                    hentekø.leggTilHenteKø(best);
                 } else {
-                    App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    App.simulation.incrementAngry(); 
+                    App.appendLog("[Kokk " + kokkNavn + "] Køen er tom. Venter.");
                 }
 
             } catch (InterruptedException e) {

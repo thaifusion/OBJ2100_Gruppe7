@@ -22,4 +22,12 @@ public class Hentekø {
         App.appendLog("[Hentekø] Hentet bestilling: " + bestilling);
         return bestilling;
     }
+
+    public boolean erTom() {
+        return henteKø.isEmpty();
+    }
+
+    public boolean erFull() {
+        return henteKø.size() == kapasitet;
+    }
 }
