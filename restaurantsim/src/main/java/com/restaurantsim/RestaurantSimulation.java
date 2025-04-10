@@ -62,7 +62,7 @@ public class RestaurantSimulation {
         new Thread(() -> {
             Random random = new Random();
             int kundeId = 1;
-            while (kjører) {
+            while (kjører && kundeId <=10) {
                 try {
                     sjekkPause();
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
@@ -107,6 +107,15 @@ public class RestaurantSimulation {
 
     public Hentekø getHentekø() {
         return hentekø;
+    }
+
+    public boolean finnesLedigSpesialist(Måltider måltid) {
+        for (Kokk kokk : kokker) {
+            if (kokk.getSpesialisering() == måltid && kokk.erLedig()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized void incrementHappy() {

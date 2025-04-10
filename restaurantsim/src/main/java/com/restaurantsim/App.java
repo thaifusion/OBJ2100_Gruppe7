@@ -101,7 +101,7 @@ public class App extends Application {
 
         // Scene
         Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/restaurantsim/style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
         stage.show();
@@ -109,9 +109,14 @@ public class App extends Application {
         // Initier simulering
         simulation = new RestaurantSimulation(5);
 
-        // Registrer kokker
+        // Opprettelse av kokker med spesialiseringer
         Kokk kokk1 = new Kokk("Eivind Hellstrøm", Måltider.PASTA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
-        Kokk kokk2 = new Kokk("Jamie Oliver", simulation.getBestillingsKø(), simulation.getHentekø(), simulation); // allrounder
+        Kokk kokk2 = new Kokk("Jamie Oliver", Måltider.PIZZA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk4 = new Kokk("Lars Monsen", Måltider.BURGER, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk5 = new Kokk("Gordon Ramsay", Måltider.BIFF, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk allrounder = new Kokk("Allrounder-Kokk", null, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+
 
 
         startButton.setOnAction(e -> {
@@ -119,7 +124,10 @@ public class App extends Application {
                 simulation.startSimulering();
                 simulation.startKokk(kokk1);
                 simulation.startKokk(kokk2);
-
+                simulation.startKokk(kokk3);
+                simulation.startKokk(kokk4);
+                simulation.startKokk(kokk5);
+                simulation.startKokk(allrounder);
 
                 startButton.setDisable(true);
                 stoppButton.setDisable(false);
