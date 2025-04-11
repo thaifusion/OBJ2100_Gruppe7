@@ -41,33 +41,40 @@ public class Kokk implements Runnable {
                 if (spesialisering == null || best.getMåltid() == spesialisering) { 
                     erOpptatt = true;
     
-                    // ⏳ Under arbeid
-                    String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
-                    LoggerUtil.loggTilFil("[" + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
-                    App.appendBestillingsinfo(underArbeid);
-        
+                // ⏳ Under arbeid
+                String underArbeid = kokkNavn + " ⏳ lager " + best.getMåltid() + " for kunde " + best.getKundeId();
+                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
+                App.appendBestillingsinfo(underArbeid);
+    
+                Thread.sleep(best.getMåltid().getTilberedningstid()); // Lager mat
 
-                    // ✅ Ferdig
-                    String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
-                    LoggerUtil.loggTilFil("[" + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-                    App.appendLog("[" + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
-                    App.appendBestillingsinfo(ferdig);
-                    
-                    bestillingsKø.leggTilBestilling(best);
-        
-                    long nåTid = System.currentTimeMillis();
-                    long ventetid = nåTid - best.getBestillingstid();
-        
-                    // 😊 eller 😠 basert på ventetid
-                    if (ventetid <= 16000) {
-                        App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                        LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                        App.simulation.incrementHappy(); 
-                    } else {
-                        App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                        LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                        App.simulation.incrementAngry(); 
-                    }
+                // ✅ Ferdig
+                String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
+                LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
+                App.appendBestillingsinfo(ferdig);
+                hentekø.leggTilHenteKø(best);
+    
+                long nåTid = System.currentTimeMillis();
+                long ventetid = nåTid - best.getBestillingstid();
+    
+                // 😊 eller 😠 basert på ventetid
+                if (ventetid <= 16000) {
+                    App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    App.simulation.incrementHappy(); 
+                } else {
+                    App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                    App.simulation.incrementAngry(); 
+                }
+
+                // Kokk tar en liten pause etter retten
+                Thread.sleep(500);
+
+                erOpptatt = false;
+
+                
                 } else {
                     // Hvis bestillingen ikke samsvarer med kokkens spesialitet, legg den tilbake i køen
                     bestillingsKø.leggTilBestilling(best);

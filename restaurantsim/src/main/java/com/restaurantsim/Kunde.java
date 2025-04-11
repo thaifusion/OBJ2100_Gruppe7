@@ -20,41 +20,49 @@ public class Kunde implements Runnable {
     @Override
     public void run() {
         try {
+            // Sjekker om simuleringen kjører og ikke avbrutt
             while (!Thread.currentThread().isInterrupted() && simulation.kjører()) {
+
+                // Pausehåndtering
                 while (simulation.pausert()) {
                     Thread.sleep(500);
                 }
-                
+
+                // Lager bestillingen
                 Bestilling best = new Bestilling(kundeId, ønsketMåltid, bestillingstid);
 
-                String melding = "Kunde " + kundeId + " ønsker " + ønsketMåltid;
-                App.appendLog(melding);
-                App.appendBestillingsinfo(melding);
-                if (bestillingsKø.erFull() == true) {
-                    App.appendLog("Bestillingskø er full, kunde " + kundeId + " venter.");
-                } else {
-                    App.addKundeTilListe(melding);
-                    bestillingsKø.leggTilBestilling(best);
-                    App.appendLog("Kunde " + kundeId + " venter på " + ønsketMåltid);
-                    System.out.println("Antall ordre i køen: " + bestillingsKø.antallBestillinger());
-                }
+                // Legg til GUI-liste (en gang)
+                String kundeTekst = "Kunde " + kundeId + " ønsker " + ønsketMåltid;
+                App.addKundeTilListe(kundeTekst);
+                System.out.println("? Legger til i liste: " + kundeTekst);
 
+                // Loggfør Bestilling
+                App.appendLog(kundeTekst);
+                App.appendBestillingsinfo(kundeTekst);
 
+                // Legg bestilling i bestillingskøen
+                bestillingsKø.leggTilBestilling(best);
+                App.appendLog("Kunde " + kundeId + " venter på " + ønsketMåltid);
 
                 // Vente på at kokken legger ferdig bestilling tilbake i køen
                 while (true) {
-                    best = bestillingsKø.hentBestilling();
-                    if (best.getKundeId() == kundeId) {
-                        App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + best.getMåltid());
-                        App.removeKundeFraListe(melding);
-                        
-                        break;
+                    Bestilling ferdigBestilling = henteKø.kundeHentBestilling();
+
+                    if (ferdigBestilling.getKundeId() != kundeId) {
+                        henteKø.leggTilHenteKø(ferdigBestilling);
+                        Thread.sleep(100);
+                        continue;
                     }
-                    Thread.sleep(500);
+
+                     // Hvis det er min mat!
+                     App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling.getMåltid());
+                     App.removeKundeFraListe(kundeTekst);
+                     System.out.println("? Fjerner fra liste: " + kundeTekst);
+                     break;
+                 }
+                    break;
                 }
 
-                break; // Ferdig med løkken etter henting
-            }
         } catch (InterruptedException e) {
             App.appendLog("Kunde " + kundeId + " ble avbrutt.");
             Thread.currentThread().interrupt();
