@@ -179,10 +179,17 @@ public class App extends Application {
     }
 
     public static void addKundeTilListe(String kundeNavn) {
-        Platform.runLater(() -> aktiveKunder.add(kundeNavn));
+        Platform.runLater(() -> {
+            if (!aktiveKunder.contains(kundeNavn)) {
+                aktiveKunder.add(kundeNavn);
+                System.out.println("🟢 Legger til i liste: " + kundeNavn);
+            }
+        });
     }
+    
 
     public static void removeKundeFraListe(String kundeNavn) {
+        System.out.println("🔴 Fjerner fra liste: " + kundeNavn);
         Platform.runLater(() -> aktiveKunder.remove(kundeNavn));
     }
 
