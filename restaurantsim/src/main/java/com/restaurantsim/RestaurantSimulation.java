@@ -14,11 +14,9 @@ public class RestaurantSimulation {
 
     private final List<Kokk> kokker = new ArrayList<>();
     private final Bestillingskø bestillingsKø;
-    private final Hentekø hentekø;
 
     public RestaurantSimulation(int køKapasitet) {
         this.bestillingsKø = new Bestillingskø(køKapasitet);
-        this.hentekø = new Hentekø(køKapasitet);
     }
 
     public void startSimulering() {
@@ -62,16 +60,16 @@ public class RestaurantSimulation {
         new Thread(() -> {
             Random random = new Random();
             int kundeId = 1;
-            while (kjører && kundeId <=10) {
+            while (kjører) {
                 try {
                     sjekkPause();
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
                     long bestillingstid = System.currentTimeMillis();
-                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, hentekø, this, random.nextInt(15000 - 5000) + 5000);
-                    new Thread(kunde, "Kunde-" + kundeId).start();
-                    App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
-                    kundeId++;
+                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, this);
+                    new Thread(kunde, "Kunde " + kundeId).start();
                     Thread.sleep(1000 + random.nextInt(5000));
+                    kundeId++;
+                    
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -105,10 +103,6 @@ public class RestaurantSimulation {
         return bestillingsKø;
     }
 
-    public Hentekø getHentekø() {
-        return hentekø;
-    }
-
     public boolean finnesLedigSpesialist(Måltider måltid) {
         for (Kokk kokk : kokker) {
             if (kokk.getSpesialisering() == måltid && kokk.erLedig()) {
@@ -132,5 +126,10 @@ public class RestaurantSimulation {
 
     public synchronized int getAngryCount() {
         return angryCount;
+    }
+
+    public synchronized void resetCounts() {
+        happyCount = 0;
+        angryCount = 0;
     }
 }

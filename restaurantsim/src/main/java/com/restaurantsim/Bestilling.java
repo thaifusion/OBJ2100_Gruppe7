@@ -9,7 +9,7 @@ public class Bestilling {
     public Bestilling(int kundeId, Måltider måltid, long bestillingstid) {
         this.kundeId = kundeId;
         this.måltid = måltid;
-        this.bestillingstid = bestillingstid;
+        this.bestillingstid = System.currentTimeMillis();
     }
 
     public int getKundeId() {

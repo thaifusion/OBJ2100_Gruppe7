@@ -19,11 +19,16 @@ public class Bestillingskø {
     }
 
     public void leggTilBestilling(Bestilling bestilling) throws InterruptedException {
-        ko.put(bestilling);
-        String melding = "[Bestillingskø] Kunde " + bestilling.getKundeId() + 
-                         " har bestilt " + bestilling.getMåltid();
-        // App.appendLog(melding);
-        System.out.println(melding);
+        if (ko.size() == kapasitet) {
+            App.appendBestillingsinfo("Bestillingskøen er full!");
+        } else {
+            ko.put(bestilling);
+            String melding = "[Bestillingskø] Kunde " + bestilling.getKundeId() + 
+                             " har bestilt " + bestilling.getMåltid();
+            // App.appendLog(melding);
+            System.out.println(melding);
+        }
+
     }
 
     public Bestilling hentBestilling() throws InterruptedException {
