@@ -66,7 +66,7 @@ public class Kunde implements Runnable {
                 }
 
         } catch (InterruptedException e) {
-            App.appendLog("Kunde #" + kundeId + " ble avbrutt.");
+            App.appendLog("Kunde " + kundeId + " ble avbrutt.");
             Thread.currentThread().interrupt();
         }
     }
