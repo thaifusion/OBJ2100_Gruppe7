@@ -48,7 +48,7 @@ public class Kokk implements Runnable {
                 LoggerUtil.loggTilFil("[Kokk " + kokkNavn + "] Tilbereder " + best.getMåltid() + " for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(underArbeid);
     
-                Thread.sleep(best.getMåltid().getTilberedningstid());
+                Thread.sleep(best.getMåltid().getTilberedningstid()); // Lager mat
 
                 // ✅ Ferdig
                 String ferdig = kokkNavn + " ✅ ferdig for kunde " + best.getKundeId();
@@ -70,6 +70,13 @@ public class Kokk implements Runnable {
                     LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
                     App.simulation.incrementAngry(); 
                 }
+
+                // Kokk tar en liten pause etter retten
+                Thread.sleep(500);
+
+                erOpptatt = false;
+
+                
                 } else {
                     // Hvis bestillingen ikke samsvarer med kokkens spesialitet, legg den tilbake i køen
                     bestillingsKø.leggTilBestilling(best);

@@ -151,6 +151,10 @@ public class App extends Application {
             startButton.setText("Fortsett");
             statusLabel.setText("Status: Simulering stoppet");
             appendLog("Simulering stoppet.");
+            aktiveKunder.clear();
+            bestillingInfoArea.clear();
+            logArea.clear();
+            simulation.resetCounts();
         });
 
         pauseButton.setDisable(true);

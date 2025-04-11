@@ -143,4 +143,9 @@ public class RestaurantSimulation {
     public synchronized int getAngryCount() {
         return angryCount;
     }
+
+    public synchronized void resetCounts() {
+        happyCount = 0;
+        angryCount = 0;
+    }
 }
