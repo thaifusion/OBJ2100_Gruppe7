@@ -56,23 +56,10 @@ public class Kokk implements Runnable {
                 App.appendLog("[Kokk " + kokkNavn + "] Ferdig med bestilling for kunde " + best.getKundeId());
                 App.appendBestillingsinfo(ferdig);
                 hentekø.leggTilHenteKø(best);
-    
-                long nåTid = System.currentTimeMillis();
-                long ventetid = nåTid - best.getBestillingstid();
-    
-                // 😊 eller 😠 basert på ventetid
-                if (ventetid <= 16000) {
-                    App.appendLog("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    App.simulation.incrementHappy(); 
-                } else {
-                    App.appendLog("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    LoggerUtil.loggTilFil("Kunde " + best.getKundeId() + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
-                    App.simulation.incrementAngry(); 
-                }
+                // Vurdering av ventetid og kundetilfredshet skjer nå i Kunde.run()
 
                 // Kokk tar en liten pause etter retten
-                Thread.sleep(500);
+                Thread.sleep(5000);
 
                 erOpptatt = false;
 

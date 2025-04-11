@@ -60,6 +60,20 @@ public class Kunde implements Runnable {
                      App.appendLog("Kunde " + kundeId + " mottok sin bestilling: " + ferdigBestilling.getMåltid());
                      App.removeKundeFraListe(kundeTekst);
                      System.out.println("? Fjerner fra liste: " + kundeTekst);
+                     
+                     // Beregner ventetid
+                     long ventetid = System.currentTimeMillis() - ferdigBestilling.getBestillingstid();
+                     
+                     // :) eller :( basert på ventetid)
+                     if (ventetid <= 16000) {
+                        App.appendLog("Kunde " + kundeId + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                        LoggerUtil.loggTilFil("Kunde " + kundeId + " er 😊 fornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                        App.simulation.incrementHappy(); 
+                    } else {
+                        App.appendLog("Kunde " + kundeId + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                        LoggerUtil.loggTilFil("Kunde " + kundeId + " er 😠 misfornøyd! (Ventet " + (ventetid / 1000) + " sek)");
+                        App.simulation.incrementAngry(); 
+                    }
                      break;
                  }
                     break;
