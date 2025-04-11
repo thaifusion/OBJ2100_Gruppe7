@@ -1,70 +1,84 @@
-
 .root {
     background-color: #2c2c2c; /* Mørk bakgrunnsfarge */
     -fx-background-color: #2c2c2c;
-    font-family: "Segoe UI", sans-serif; 
+    font-family: "Segoe UI", sans-serif;
     -fx-font-family: "Segoe UI", sans-serif;
     font-family: "Segoe UI", sans-serif;
-}
-
-/* === LABELS === */
-.label {
+  }
+  
+  /* === LABELS === */
+  .label {
     -fx-text-fill: white;
-    font-size: 14px;   
+    font-size: 14px;
     -fx-font-size: 14px;
     font-size: 14px;
-}
-
-#scoreboardLabel {
-    font-size: 16px; 
+  }
+  
+  #scoreboardLabel {
+    font-size: 16px;
     -fx-font-size: 16px;
-    font-weight: bold; 
-     
     -fx-font-weight: bold;
-    -fx-text-fill: #fcefa4; 
-}
-
-/* === KNAPPER === */
-.button {
-    background-color: #444; 
+    font-weight: bold;
+    -fx-text-fill: #fcefa4;
+  }
+  
+  /* === KNAPPER === */
+  .button {
+    background-color: #444;
     -fx-background-color: #444;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     font-size: 14px;
     -fx-background-radius: 5px;
-    cursor: pointer; 
+    cursor: pointer;
     -fx-cursor: hand;
-}
-
-.button:hover {
-    background-color: #666; 
+  }
+  
+  .button:hover {
+    background-color: #666;
     -fx-background-color: #666;
-}
-
-.button:disabled {
-    opacity: 0.5; 
+  }
+  
+  .button:disabled {
+    opacity: 0.5;
     -fx-opacity: 0.5;
-}
-
-/* === LISTVIEW OG TEXTAREA === */
-.list-view,
-.text-area {
+  }
+  
+  #start-knapp {
+    background-color: #4CAF50;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    font-weight: bold;
+  }
+  
+  #stopp-knapp {
+    background-color: #F44336;
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    font-weight: bold;
+  }
+  
+  /* === LISTVIEW OG TEXTAREA === */
+  .list-view,
+  .text-area {
     -fx-control-inner-background: #f9f9f9;
-    font-family: "Consolas", monospace; 
+    font-family: "Consolas", monospace;
     -fx-font-family: "Consolas", monospace;
-    font-size: 13px; 
+    font-size: 13px;
     -fx-font-size: 13px;
-    border-color: #ccc; 
+    border-color: #ccc;
     -fx-border-color: #ccc;
-    border-radius: 3px; 
+    border-radius: 3px;
     -fx-border-radius: 3px;
-}
-
-/* === STATUSLABEL === */
-#statusLabel {
+  }
+  
+  /* === STATUSLABEL === */
+  #statusLabel {
     -fx-text-fill: #ffa726; /* Oransje for status */
     -fx-font-size: 14px;
     font-size: 14px;
     -fx-font-weight: bold;
     font-weight: bold;
-}
+  }

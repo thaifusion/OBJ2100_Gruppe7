@@ -9,7 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -36,21 +38,35 @@ public class App extends Application {
         Label title = new Label("Restaurant Simulering");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         Button startButton = new Button("Start");
-        Button pauseButton = new Button("Pause");
+        startButton.setId ("start-knapp");
         Button stoppButton = new Button("Stopp");
+        stoppButton.setId("stopp-knapp");
         Button visLoggKnapp = new Button("Vis logg");
         visLoggKnapp.setOnAction(e -> LoggViewer.visLoggVindu());
+        Button tømLoggKnapp = new Button("Tøm logg");
+
+        tømLoggKnapp.setOnAction(e -> {
+            Alert bekreft = new Alert(Alert.AlertType.CONFIRMATION, "Er du sikker på at du vil tømme loggfilen?");
+            bekreft.setHeaderText("Bekreft tømming");
+            bekreft.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    LoggerUtil.tømLogg();
+                    appendLog("Loggfilen ble tømt.");
+                }
+            });
+        });
 
         HBox tittelBox = new HBox(title);
         tittelBox.setAlignment(Pos.CENTER);
         tittelBox.setPadding(new Insets(10));
         tittelBox.setPrefWidth(Double.MAX_VALUE);
 
-        HBox buttonBox = new HBox(10, startButton, pauseButton, stoppButton);
+        HBox buttonBox = new HBox(10, startButton, stoppButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        HBox loggBox = new HBox(visLoggKnapp);
+        HBox loggBox = new HBox(10, visLoggKnapp, tømLoggKnapp);
         loggBox.setAlignment(Pos.CENTER);
+        loggBox.setPadding(new Insets(10));
 
         HBox scoreboardBox = new HBox(scoreboardLabel);
         scoreboardBox.setAlignment(Pos.CENTER);
@@ -101,7 +117,7 @@ public class App extends Application {
         root.setBottom(bottomWrapper);
 
         // Scene
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 900, 800);
         scene.getStylesheets().add(getClass().getResource("/com/restaurantsim/style.css").toExternalForm());
         stage.setTitle("Restaurant Simulering");
         stage.setScene(scene);
@@ -131,22 +147,16 @@ public class App extends Application {
                 simulation.startKokk(allrounder);
 
                 startButton.setDisable(true);
-                pauseButton.setDisable(false);
+            
                 stoppButton.setDisable(false);
                 statusLabel.setText("Status: Simulering startet");
                 appendLog("Simulering startet.");
             }
         });
 
-        pauseButton.setOnAction(e -> {
-            statusLabel.setText("Status: Simulering pausert");
-            appendLog("Simuleringen er midlertidig satt på pause.");
-        });
-
         stoppButton.setOnAction(e -> {
             simulation.stopSimulering();
             startButton.setDisable(false);
-            pauseButton.setDisable(true);
             stoppButton.setDisable(true);
             startButton.setText("Fortsett");
             statusLabel.setText("Status: Simulering stoppet");
@@ -157,7 +167,6 @@ public class App extends Application {
             simulation.resetCounts();
         });
 
-        pauseButton.setDisable(true);
         stoppButton.setDisable(true);
 
         new AnimationTimer() {
