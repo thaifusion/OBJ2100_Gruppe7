@@ -110,12 +110,12 @@ public class App extends Application {
         simulation = new RestaurantSimulation(5);
 
         // Opprettelse av kokker med spesialiseringer
-        Kokk kokk1 = new Kokk("Eivind Hellstrøm", Måltider.PASTA, simulation.getBestillingsKø(), simulation);
-        //Kokk kokk2 = new Kokk("Jamie Oliver", Måltider.PIZZA, simulation.getBestillingsKø(), simulation);
-        //Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation);
+        Kokk kokk1 = new Kokk("Eivind Hellstrøm", Måltider.PASTA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk2 = new Kokk("Jamie Oliver", Måltider.PIZZA, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
+        Kokk kokk3 = new Kokk("Arne Brimi", Måltider.SALAT, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
         //Kokk kokk4 = new Kokk("Lars Monsen", Måltider.BURGER, simulation.getBestillingsKø(), simulation);
-        Kokk kokk5 = new Kokk("Gordon Ramsay", Måltider.BIFF, simulation.getBestillingsKø(), simulation);
-        Kokk allrounder = new Kokk("Allrounder-Kokk", null, simulation.getBestillingsKø(), simulation);
+        //Kokk kokk5 = new Kokk("Gordon Ramsay", Måltider.BIFF, simulation.getBestillingsKø(), simulation);
+        Kokk allrounder = new Kokk("Allrounder-Kokk", null, simulation.getBestillingsKø(), simulation.getHentekø(), simulation);
 
 
 
@@ -123,16 +123,15 @@ public class App extends Application {
             if (!simulation.kjører()) {
                 simulation.startSimulering();
                 simulation.startKokk(kokk1);
-                //simulation.startKokk(kokk2);
-                //simulation.startKokk(kokk3);
+                simulation.startKokk(kokk2);
+                simulation.startKokk(kokk3);
                 //simulation.startKokk(kokk4);
-                simulation.startKokk(kokk5);
+                //simulation.startKokk(kokk5);
                 simulation.startKokk(allrounder);
 
                 startButton.setDisable(true);
                 stoppButton.setDisable(false);
-                statusLabel.setText("Status: Simulering startet");
-                appendLog("Simulering startet.");
+                
             }
         });
 
@@ -140,20 +139,12 @@ public class App extends Application {
             simulation.stopSimulering();
             startButton.setDisable(false);
             stoppButton.setDisable(true);
-            aktiveKunder.clear();
-            bestillingInfoArea.clear();
-            logArea.clear();
-            simulation.resetCounts();
-            startButton.setText("Fortsett");
-            statusLabel.setText("Status: Simulering stoppet");
-            appendLog("Simulering stoppet.");
-            aktiveKunder.clear();
-            bestillingInfoArea.clear();
-            logArea.clear();
+            //aktiveKunder.clear();
+            //bestillingInfoArea.clear();
+            //logArea.clear();
             simulation.resetCounts();
         });
 
-        
         stoppButton.setDisable(true);
 
         new AnimationTimer() {

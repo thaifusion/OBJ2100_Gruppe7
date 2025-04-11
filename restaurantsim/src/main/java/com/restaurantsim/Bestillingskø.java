@@ -12,15 +12,17 @@ public class Bestillingskø {
 
     private final int kapasitet;
     private final BlockingQueue<Bestilling> ko;
+    private final BlockingQueue<Bestilling> hentekø;
 
     public Bestillingskø(int kapasitet) {
         this.kapasitet = kapasitet;
         this.ko = new LinkedBlockingQueue<>(kapasitet);
+        this.hentekø = new LinkedBlockingQueue<>(kapasitet);
     }
 
     public void leggTilBestilling(Bestilling bestilling) throws InterruptedException {
         if (ko.size() == kapasitet) {
-            App.appendBestillingsinfo("Bestillingskøen er full!");
+            App.appendBestillingsinfo("Bestillingskøen er full!"); 
         } else {
             ko.put(bestilling);
             String melding = "[Bestillingskø] Kunde " + bestilling.getKundeId() + 
@@ -31,26 +33,21 @@ public class Bestillingskø {
 
     }
 
+    public void leggTilBestillingHentekø(Bestilling bestilling) throws InterruptedException {
+        hentekø.put(bestilling);
+    }
+
+    public Bestilling hentBestillingHentekø() throws InterruptedException {
+        Bestilling bestillingFerdig = hentekø.take();
+        return bestillingFerdig;
+    }
+
     public Bestilling hentBestilling() throws InterruptedException {
         Bestilling bestilling = ko.take();
         String melding = "[Bestillingskø] Hentet bestilling for kunde " + bestilling.getKundeId() + 
                          ": " + bestilling.getMåltid();
         // App.appendLog(melding);
         System.out.println(melding);
-        return bestilling;
-    }
-
-    public Bestilling forsokHentBestillingMedTimeout(int timeoutSekunder) throws InterruptedException {
-        Bestilling bestilling = ko.poll(timeoutSekunder, TimeUnit.SECONDS);
-        if (bestilling != null) {
-            String melding = "[Bestillingskø]⏳ Hentet (timeout) bestilling for kunde " + bestilling.getKundeId() + 
-                             ": " + bestilling.getMåltid();
-            // App.appendLog(melding);
-            System.out.println(melding);
-        } else {
-           //  App.appendLog("[Bestillingskø] Ingen bestillinger tilgjengelig (timeout)");
-            System.out.println("[Bestillingskø] Ingen bestilling tilgjengelig (timeout)...");
-        }
         return bestilling;
     }
 

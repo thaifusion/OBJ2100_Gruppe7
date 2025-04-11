@@ -13,10 +13,12 @@ public class RestaurantSimulation {
     private int angryCount = 0;
 
     private final List<Kokk> kokker = new ArrayList<>();
-    private final Bestillingskø bestillingsKø;
+    private final Bestillingskø bestillingskø;
+    private final Bestillingskø hentekø;
 
     public RestaurantSimulation(int køKapasitet) {
-        this.bestillingsKø = new Bestillingskø(køKapasitet);
+        this.bestillingskø = new Bestillingskø(køKapasitet);
+        this.hentekø = new Bestillingskø(køKapasitet);
     }
 
     public void startSimulering() {
@@ -42,11 +44,9 @@ public class RestaurantSimulation {
         if (kjører) {
             kjører = false;
             pausert = false;
-
-            for (Kokk kokk : kokker) {
-                kokk.stop(); // kaller stop()-metode i Kokk
+            synchronized (pauseLock) {
+                pauseLock.notifyAll();
             }
-
             App.appendLog("Simuleringen stoppet.");
         }
     }
@@ -67,13 +67,13 @@ public class RestaurantSimulation {
                     Måltider randomRett = Måltider.values()[random.nextInt(Måltider.values().length)];
                     long bestillingstid = System.currentTimeMillis();
 
-                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingsKø, hentekø, this);
+                    Kunde kunde = new Kunde(kundeId, randomRett, bestillingstid, bestillingskø, hentekø, this);
                     new Thread(kunde, "Kunde-" + kundeId).start();
                     // App.addKundeTilListe("Kunde " + kundeId + " ønsker " + randomRett);
                     kundeId++;
 
                     Thread.sleep(1000 + random.nextInt(5000));
-                    kundeId++;
+                    
                     
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -105,7 +105,11 @@ public class RestaurantSimulation {
     }
 
     public Bestillingskø getBestillingsKø() {
-        return bestillingsKø;
+        return bestillingskø;
+    }
+
+    public Bestillingskø getHentekø() {
+        return hentekø;
     }
 
     public boolean finnesLedigSpesialist(Måltider måltid) {
