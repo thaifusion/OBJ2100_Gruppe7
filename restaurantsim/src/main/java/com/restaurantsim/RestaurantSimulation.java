@@ -69,7 +69,7 @@ public class RestaurantSimulation {
         new Thread(() -> {
             Random random = new Random();
             int kundeId = 1;
-            while (kjører && kundeId <=20) {
+            while (kjører && kundeId <=5) {
                 try {
                     sjekkPause();
 
